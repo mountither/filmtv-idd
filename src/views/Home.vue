@@ -8,14 +8,15 @@
         :style="{ backgroundImage: 'linear-gradient(rgba(129, 178, 154,0.6),rgba(129, 178, 154,0.6)), url(' + IMAGE_BASE_URL_500 + img + ')' }"
         class="col-4 col-sm-4 bg-img p-0 overflow-hidden"
       />
-      <div class="row search-container-full bg-primary p-4 rounded-3 shadow-lg">
+      <div class="row search-container-full bg-primary p-4 py-5 rounded-3 shadow-lg">
         <h1 class="search-title p-0">Welcome</h1>
         <p class="search-subtitle p-0">explore all your favourite films and tv shows</p>
-        <div class="input-group p-0" style="position: relative;">
+        <div class="input-group p-0" style="position: relative;" ref="searchBoxRef">
           <input
             class="form-control form-control-lg"
             type="text"
             @keyup="getSearchResults"
+            @focus="searchInput !== '' ? isSearchBoxOpen = true : undefined"
             placeholder="Search Films and TV shows"
             v-model="searchInput"
           />
@@ -28,11 +29,11 @@
           </div>
           <Transition name="slide-fade" style="margin-top: 48px;">
             <div
-              v-show="!!searchInput"
-              style="position: absolute; top:48px, left:0; height:260px; width:100%;"
+              v-show="isSearchBoxOpen"
+              style="position: absolute; top:48px, left:0; height:260px; width:100%;z-index: 10;"
               class="bg-white border border-1 border-primary rounded-bottom overflow-scroll"
             >
-              <TransitionGroup name="list">
+              <TransitionGroup name="list" v-if="searchResults.length > 0">
                 <router-link
                   v-for="result in searchResults"
                   :key="result.id"
@@ -50,6 +51,9 @@
                   </div>
                 </router-link>
               </TransitionGroup>
+              <div v-else class="d-flex flex-row align-self-center justify-content-center ">
+                <p>No results found</p>
+              </div>
             </div>
           </Transition>
         </div>
@@ -225,11 +229,10 @@ import { discoverMedia, fetchMoviesInTheatre, fetchTrendingMedia, fetchSearchMul
 import { defineComponent, ref } from 'vue';
 import Tweet from "vue-tweet";
 import MediaCard from '../modules/media/MediaCard.vue';
-
 import type { MovieTypes } from '@/modules/media/types/movie'
 import type { TVTypes } from '@/modules/media/types/tv'
 import type { SearchDataTypes } from '@/modules/media/types/searchResult'
-
+import { onClickOutside } from '@vueuse/core'
 
 type MediaDataTypes = MovieTypes & TVTypes
 
@@ -240,6 +243,7 @@ export default defineComponent({
       IMAGE_BASE_URL_92,
       searchInput: "" as string,
       searchResults: [] as SearchDataTypes["results"],
+      isSearchBoxOpen: false as boolean,
       tweets: [
         "1508745882975588357",
         "1508134925400223763",
@@ -272,7 +276,11 @@ export default defineComponent({
       console.log(this.searchInput);
     },
     async getSearchResults() {
-      if (!this.searchInput) return;
+      if (!this.searchInput) {
+        this.isSearchBoxOpen = false
+        return
+      };
+      this.isSearchBoxOpen = true
       const data = await fetchSearchMultiResults({ query: this.searchInput, page: 1 });
       this.searchResults = data;
     },
@@ -321,12 +329,20 @@ export default defineComponent({
       this.headerImages = posters.sort(() => .5 - Math.random()).slice(0, 3);
     },
   },
+  setup() {
+    const searchBoxRef = ref(null)
+    const isSearchBoxOpen = ref(false);
+    
+    onClickOutside(searchBoxRef, () => isSearchBoxOpen.value = false)
+
+    return { searchBoxRef, isSearchBoxOpen}
+
+  },
   async mounted() {
     await this.mediaTypeSelection("popular");
     this.processHeaderImages()
     await this.mediaTypeSelection("netflix");
     await this.processInTheatresData();
-
   },
   components: { MediaCard, Tweet }
 })
@@ -398,7 +414,7 @@ export default defineComponent({
 
 .slide-fade-enter-from,
 .slide-fade-leave-to {
-  transform: translateY(-48px);
+  transform: translateY(-2px);
   opacity: 0;
 }
 
@@ -438,18 +454,6 @@ export default defineComponent({
 
 //* custom breakpoint for home backdrop
 @include media-breakpoint-down(xl) {
-  /* 
-  - width of the child element to fill the entire viewport
-  - left by a distance of half the viewport, minus 50% of the parent element's width
-  */
-  .container-full {
-    position: relative;
-    width: 100vw !important;
-    max-width: 100vw !important;
-    left: calc(-50vw + 50%) !important;
-    margin: 0;
-  }
-
   .aside-container {
     width: 100%;
     border-left: 0;

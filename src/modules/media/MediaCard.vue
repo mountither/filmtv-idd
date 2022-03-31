@@ -1,23 +1,26 @@
 <template>
     <div
+        class="rounded-3 overflow-hidden media-card"
         :class="bgColour == 'netflix' ? 'bg-card-alt' : 'bg-secondary'"
-        class="rounded-3 overflow-hidden p-0 media-card"
     >
-        <router-link :to="`/media/${mediaType}/${id}`" class="text-decoration-none inner-card">
+        <router-link :to="`/media/${mediaType}/${id}`" class="text-decoration-none cursor-pointer">
             <img :src="IMAGE_BASE_URL_500 + posterPath" class="poster" />
-            <div class="p-2" style="position: relative;">
-                <p class="p-0 text-white">{{ title }}</p>
-            </div>
-            <p
-                v-show="showDate"
-                class="text-white text-white-50"
-                style="
-                    font-size: 12px;  
-                    position: absolute;
-                    bottom: 0;
-                    left: 8px;"
-            >{{ formattedDate }}</p>
         </router-link>
+        <div class="p-2 overflow-hidden">
+            <router-link :to="`/media/${mediaType}/${id}`" class="text-decoration-none">
+                <p class="p-0 text-white title-link">{{ title }}</p>
+            </router-link>
+        </div>
+        <p
+            v-show="showDate"
+            class="text-white text-white-50"
+            style="
+                    position: absolute;
+                    font-size: 12px;
+                    left: 7px;
+                    bottom: 0px;
+                    "
+        >{{ formattedDate }}</p>
         <div
             class="quick-action d-flex bg-primary bg-opacity-75 align-items-center align-self-center justify-content-center shadow-lg"
         >
@@ -30,7 +33,7 @@
 import type { PropType } from 'vue';
 import { defineComponent, } from 'vue'
 import { IMAGE_BASE_URL_500 } from '@/common/api/tmdbApi'
-import {format} from 'date-fns'
+import { format } from 'date-fns'
 
 type BGColourTypes = "default" | "netflix"
 type MediaTypes = "movie" | "tv"
@@ -58,22 +61,18 @@ export default defineComponent({
             required: false,
         }
     },
-    computed:{
-        formattedDate(){
-            if(!this.releaseDate) return this.releaseDate;
+    computed: {
+        formattedDate() {
+            if (!this.releaseDate) return this.releaseDate;
             return format(new Date(this.releaseDate), 'MMMM/yyyy')
         }
     }
 
 })
-
-
-
-
 </script>
 
 <style scoped lang="scss">
-@import "@bs-scss/bootstrap-grid.scss";
+@import "@/assets/sass/main.scss";
 
 p {
     overflow: hidden;
@@ -89,18 +88,26 @@ p {
     height: 330px;
     z-index: 20;
 }
-.inner-card {
+.title-link {
     cursor: pointer;
-    transition: opacity 0.3s;
+    height: 100%;
+    width: 100%;
+    transition: opacity 0.3s ease-in-out;
+}
+.title-link:hover {
+    opacity: 0.7;
+    text-decoration: underline;
+    transition: opacity 0.3s ease-in-out;
 }
 .poster {
     height: 230px;
     width: 100%;
     object-fit: cover;
+    transition: opacity 0.3s ease-in-out;
 }
-.inner-card:hover {
-    opacity: 0.7;
-    transition: opacity 0.3s;
+.poster:hover {
+    opacity: 0.6;
+    transition: opacity 0.3s ease-in-out;
 }
 .quick-action {
     position: absolute;

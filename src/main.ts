@@ -1,6 +1,7 @@
 import "@/assets/css/main.min.css";
 
 import "vue-skeletor/dist/vue-skeletor.css";
+import 'viewerjs/dist/viewer.css'
 
 import { library } from "@fortawesome/fontawesome-svg-core";
 
@@ -13,6 +14,7 @@ import { Skeletor } from "vue-skeletor";
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import { RouterLink } from 'vue-router';
+import VueViewer from 'v-viewer'
 
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { faAdd } from "@fortawesome/free-solid-svg-icons";
@@ -26,9 +28,9 @@ app.component(`main-layout`, MainLayout);
 app.component("skeletor", Skeletor);
 app.component("router-link", RouterLink);
 
-
 app.use(router);
 app.use(VueAxios, axios)
+app.use(VueViewer)
 
 app.mount("#app");
 

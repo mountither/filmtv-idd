@@ -71,7 +71,6 @@ export const fetchSearchMultiResults = async ({
       return obj.media_type !== "person";
     });
 
-    console.log(filteredResult)
     return filteredResult;
 
   } catch (error) {
@@ -82,3 +81,26 @@ export const fetchSearchMultiResults = async ({
     }
   }
 };
+
+type FetchMediaWithIDProps = {
+  id: string,
+  type: "tv" | "movie",
+}
+
+export const fetchMediaWithID = async ({ id, type }: FetchMediaWithIDProps) => {
+  try {
+      const url = `${BASE_TMDB_URL}/${type}/${id}?api_key=${TMDB_API}${type === "movie" ? '&append_to_response=releases' : ''}`
+      const response = await axios.get(url);
+
+      return response.data;
+
+  } catch (error) {
+      if (axios.isCancel(error)) {
+          console.log('Fetch Canceled @ TV ID fetch');
+      }
+      else {
+          console.log(error);
+      }
+  }
+
+}

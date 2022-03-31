@@ -2,13 +2,13 @@ export interface TVTypes {
   backdrop_path?: string;
   created_by?: CreatedBy[];
   episode_run_time?: number[];
-  first_air_date?: Date;
+  first_air_date?: string;
   genres?: Genre[];
   homepage?: string;
   id?: number;
   in_production?: boolean;
   languages?: string[];
-  last_air_date?: Date;
+  last_air_date?: string;
   last_episode_to_air?: LastEpisodeToAir;
   name?: string;
   next_episode_to_air?: null;
@@ -46,7 +46,7 @@ export interface Genre {
 }
 
 export interface LastEpisodeToAir {
-  air_date?: Date;
+  air_date?: string;
   episode_number?: number;
   id?: number;
   name?: string;
@@ -71,7 +71,7 @@ export interface ProductionCountry {
 }
 
 export interface Season {
-  air_date?: Date;
+  air_date?: string;
   episode_count?: number;
   id?: number;
   name?: string;

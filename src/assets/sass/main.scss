@@ -1,0 +1,18 @@
+$light: #fdfdfd;
+$primary: #81b29a;
+$secondary: #3d405b;
+$tertiary: #E07A5F;
+$card-alt: #9C1F22;
+
+
+$theme-colors: (
+    "light": $light,
+    "primary": $primary,
+    "secondary": $secondary,
+    "tertiary": $tertiary,
+    "card-alt": $card-alt,
+
+);
+
+//import default bs
+@import "../../../node_modules/bootstrap/scss/bootstrap.scss";

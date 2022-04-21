@@ -42,7 +42,7 @@
         />
     </svg>
     <svg
-        v-else-if="props.name === 'film'"
+        v-else-if="props.name === 'movie'"
         :width="props.width"
         :height="props.width"
         viewBox="0 0 118 100"

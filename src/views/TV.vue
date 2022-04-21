@@ -1,8 +1,18 @@
-<template>
-    <h1>TV</h1>
+<template >
+    <BrowseMediaView media-type="tv" title="Browse TV Shows" />
 </template>
 
+<script lang="ts">
 
-<style>
+import BrowseMediaView from "@/modules/mediaList/BrowseMediaView.vue";
+import { defineComponent } from "vue";
 
-</style>
+
+export default defineComponent({
+    components: {
+        BrowseMediaView
+    }
+})
+
+
+</script>

@@ -1,0 +1,110 @@
+$transition: 0.1s;
+
+.cont-checkbox {
+    transition: transform $transition;
+}
+
+.cont-checkbox:active {
+    transform: scale(0.9);
+}
+
+.image-checkbox-input {
+    display: none;
+}
+
+.image-checkbox-input:checked+label {
+    opacity: 1;
+    box-shadow: 0 0 0 3px #0000;
+}
+
+.image-checkbox-input:checked+label img {
+    -webkit-filter: none;
+    /* Safari 6.0 - 9.0 */
+    filter: none;
+}
+
+.image-checkbox-input:checked+label .cover-checkbox {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.image-checkbox-input:checked+.image-checkbox-label .cover-checkbox svg {
+    stroke-dashoffset: 0;
+}
+
+.image-checkbox-label {
+    display: inline-block;
+    cursor: pointer;
+    overflow: hidden;
+    position: relative;
+    opacity: 0.6;
+}
+
+.image-checkbox-label img {
+    object-fit: cover;
+    -webkit-filter: grayscale(20%);
+    /* Safari 6.0 - 9.0 */
+    filter: grayscale(20%);
+}
+
+.image-checkbox-label .cover-checkbox {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    right: 5px;
+    top: 3px;
+    z-index: 1;
+    border-radius: 50%;
+    background-color: var(--bs-primary);
+    transition: transform $transition, opacity calc($transition * 1.2) linear;
+    opacity: 0;
+    transform: scale(0);
+}
+
+.image-checkbox-label .cover-checkbox svg {
+    width: 13px;
+    height: 11px;
+    display: inline-block;
+    vertical-align: top;
+    fill: none;
+    margin: 5px 0 0 3px;
+    stroke: #fff;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 16px;
+    transition: stroke-dashoffset 0.4s ease $transition;
+    stroke-dashoffset: 16px;
+}
+
+//* custom genre checkbox styles
+
+.btn-check-label {
+    font-weight: 800;
+    color: black;
+    font-size: 12px;
+    transition: all 0.2s;
+}
+
+.btn-check-label:hover {
+    opacity: 0.6;
+    color: black;
+    transition: all 0.2s;
+}
+
+
+.btn-check-input:focus {
+    color: white;
+}
+
+.btn-check-input {
+    color: white;
+}
+
+.btn-check-input:checked+.btn-check-label {
+    color: white;
+}
+
+.btn-check-input+.btn-check-label {
+    box-shadow: none !important;
+}

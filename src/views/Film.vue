@@ -1,8 +1,18 @@
-<template>
-    <h1>Film</h1>
+<template >
+    <BrowseMediaView media-type="movie" title="Browse Movies" />
 </template>
 
+<script lang="ts">
 
-<style>
+import BrowseMediaView from "@/modules/mediaList/BrowseMediaView.vue";
+import { defineComponent } from "vue";
 
-</style>
+
+export default defineComponent({
+    components: {
+        BrowseMediaView
+    }
+})
+
+
+</script>

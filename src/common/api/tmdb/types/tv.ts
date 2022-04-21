@@ -1,3 +1,14 @@
+import type { ReviewsTypes } from "@/common/api/tmdb/types/reviews";
+import type { TvCreditsTypes } from "./tvCredits";
+
+export interface TVMetaTypes {
+  page: number;
+  results: TVTypes[];
+  total_results: number;
+  total_pages: number;
+}
+
+
 export interface TVTypes {
   backdrop_path?: string;
   created_by?: CreatedBy[];
@@ -24,6 +35,9 @@ export interface TVTypes {
   production_companies?: Network[];
   production_countries?: ProductionCountry[];
   seasons?: Season[];
+  reviews?: ReviewsTypes;
+  credits?: TvCreditsTypes;
+  recommendations?: TVMetaTypes;
   spoken_languages?: SpokenLanguage[];
   status?: string;
   tagline?: string;

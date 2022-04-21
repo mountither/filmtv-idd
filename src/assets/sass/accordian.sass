@@ -1,0 +1,67 @@
+
+@import './main.scss'
+
+.vcpg[data-v-63943e43]
+    border-radius: 4px
+    width: 100%
+
+    & .vcp *
+        box-sizing: border-box
+
+    & .vcp__header
+        height: 46px
+        transition: background-color .3s ease
+
+    & .vcp__header:active
+        background-color: var(-bg-primary)
+
+
+    & .vcp__header-title
+        font-weight: 500
+
+    & .vcp__body
+        border-top: 1px solid var(--border-color)
+        background-color: var(--bg-color-body)
+
+.vcp__header[data-v-64321428]
+    display: flex
+    padding: 5px
+    pointer-events: none
+
+    .vcp--expandable &
+        pointer-events: auto
+        cursor: pointer
+
+.vcp__header-title[data-v-64321428]
+    display: flex
+    align-items: center
+    flex: 1
+
+.vcp__header-icon[data-v-64321428]
+    display: flex
+    align-items: center
+    transition: transform .3s cubic-bezier(.5, .25, 0, 1)
+
+    .vcp--expanded &
+        transform-origin: center
+        transform: rotate(180deg)
+
+.vcp__header-icon>span[data-v-64321428]
+    display: flex
+    height: 24px
+    width: 24px
+
+.vcp__header-icon[data-v-64321428] svg
+    height: 100%
+    width: 100%
+
+.vcp__body[data-v-64321428]
+    overflow: hidden
+    transition: all .3s cubic-bezier(.5, .25, 0, 1)
+
+.vcp__body-content[data-v-64321428]
+    padding: 5px
+
+.slide-enter-from[data-v-64321428],
+.slide-leave-to[data-v-64321428]
+    opacity: .25

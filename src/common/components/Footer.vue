@@ -1,5 +1,5 @@
 <template>
-  <div class="container py-3 border-top mt-5">
+  <div class="container py-3 border-top" style="height: 400px;">
     <p class="mb-2 mb-lg-0">© Copyright {{ currentYear }}</p>
 
     <div class="d-flex gap-3 align-items-center flex-md-row flex-column">

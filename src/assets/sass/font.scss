@@ -1,0 +1,25 @@
+$small: 0px;
+$medium: 768px;
+$large: 992px;
+
+// * Responsive text sizes
+// Small devices (landscape phones, 576px and up)
+@media (min-width: $small) {
+  body {
+    font-size: 0.8em;
+  }
+}
+
+// Medium devices (tablets, 768px and up)
+@media (min-width: $medium) {
+  body {
+    font-size: 1em;
+  }
+}
+
+// Large devices (desktops, 992px and up)
+@media (min-width: $large) {
+  body {
+    font-size: 1em;
+  }
+}

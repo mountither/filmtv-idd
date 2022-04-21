@@ -1,11 +1,11 @@
 export interface SearchDataTypes {
   page: number;
-  results: Result[];
+  results: SearchResult[];
   total_results: number;
   total_pages: number;
 }
 
-export interface Result {
+export interface SearchResult {
   poster_path?: null | string;
   popularity?: number;
   id?: number;

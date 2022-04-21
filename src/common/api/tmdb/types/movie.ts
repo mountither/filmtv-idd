@@ -1,3 +1,14 @@
+import type { ReviewsTypes } from "@/common/api/tmdb/types/reviews";
+import type { MovieCreditsTypes } from "./movieCredits";
+
+
+interface MovieMetaTypes {
+  page: number;
+  results: MovieTypes[];
+  total_results: number;
+  total_pages: number;
+}
+
 export interface MovieTypes {
   adult?: boolean;
   backdrop_path?: string;
@@ -19,6 +30,9 @@ export interface MovieTypes {
   spoken_languages?: SpokenLanguage[];
   status?: string;
   tagline?: string;
+  reviews?: ReviewsTypes;
+  credits?: MovieCreditsTypes;
+  recommendations?: MovieMetaTypes;
   title?: string;
   video?: boolean;
   vote_average?: number;

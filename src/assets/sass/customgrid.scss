@@ -1,0 +1,13 @@
+@include media-breakpoint-down(xl) {
+  /* 
+    - width of the child element to fill the entire viewport
+    - left by a distance of half the viewport, minus 50% of the parent element's width
+    */
+  .container-full {
+    position: relative;
+    width: 100vw !important;
+    max-width: 100vw !important;
+    left: calc(-50vw + 50%) !important;
+    margin: 0;
+  }
+}

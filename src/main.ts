@@ -28,6 +28,7 @@ import {
   faExclamationTriangle,
   faClose,
   faFilter,
+  faBookmark
 } from "@fortawesome/free-solid-svg-icons";
 import { faTwitter, faGoogle } from "@fortawesome/free-brands-svg-icons";
 import FloatingVue from "floating-vue";
@@ -62,7 +63,8 @@ library.add(
   faCheck,
   faExclamationTriangle,
   faClose,
-  faFilter
+  faFilter,
+  faBookmark
 );
 app.directive("observe-visibility", ObserveVisibility);
 app.component("font-awesome-icon", FontAwesomeIcon);

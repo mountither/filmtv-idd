@@ -5,8 +5,7 @@
             <div v-show="isLoading">
                 <skeletor :height="350" class="rounded-3 position-absolute" />
             </div>
-            <div
-                :style="{ backgroundImage: 'linear-gradient(rgba(255,255,255,0),rgba(255,255,255,1)), url(' + IMAGE_BASE_URL_OG + mediaData.backdrop_path + ')' }"
+            <div :style="{ backgroundImage: 'linear-gradient(rgba(255,255,255,0),rgba(255,255,255,1)), url(' + IMAGE_BASE_URL_OG + mediaData.backdrop_path + ')' }"
                 class="p-0 overflow-hidden" style="
                     height: 350px; 
                     background-size: cover;
@@ -44,12 +43,22 @@
                         Loading...
                     </button>
 
-                    <button v-show="!isProcessingWatchlistItem" class="btn btn-sm text-white"
+                    <button v-show="!isProcessingWatchlistItem"
+                        class="btn btn-sm text-white "
                         :class="isMediaAddedToWl ? 'bg-danger' : 'bg-primary'"
-                        @click="!isProcessingWatchlistItem ? manipulateUserWatchlist() : undefined"
-                        style="font-weight: 600;">{{
-                            `${(isMediaAddedToWl) ? 'Remove from Watchlist' : 'Add to Watchlist'}`
-                        }}</button>
+                        @click="!isProcessingWatchlistItem ? manipulateUserWatchlist() : undefined">
+                        <div class="d-flex flex-row align-items-center justify-content-between">
+                            <font-awesome-icon icon="bookmark" color="white" style="height: 25px" />
+                            <p style="font-weight: 600;" class="m-0 px-2">
+                                {{
+                                    `${(isMediaAddedToWl) ? 'Remove from Watchlist' : 'Add to Watchlist'}`
+                                }}
+                            </p>
+
+                        </div>
+
+
+                    </button>
                 </div>
             </div>
 

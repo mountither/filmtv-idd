@@ -59,8 +59,8 @@ export default defineComponent({
 
                     }).then((data: any) => {
                         //* get date media added to watchlist from store.
+                        if (!data) return;
                         const date_added_wl = this.userWatchlistSorted[media].date_added.seconds
-
                         // append new field - date added to data.
                         return { ...data, date_added_wl, media_type: type }
                     })
@@ -85,8 +85,10 @@ export default defineComponent({
                 //     wlTempArray.push({ ...data, date_added_wl, media_type: type })
                 // }
 
+                console.log(mediaData)
+
                 this.watchlistData = {
-                    data: mediaData,
+                    data: mediaData.filter(media => media !== undefined),
                     totalPages: 1,
                     totalResults: this.userWatchlistTotal
                 }

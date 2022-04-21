@@ -43,26 +43,50 @@ export default defineComponent({
     methods: {
         async fetchWatchlistData() {
             try {
-                if (!this.userWatchlistSorted) return
+                if (!this.userWatchlistSorted) return;
 
-                const wlTempArray = [];
-
-                for (var media in this.userWatchlistSorted) {
+                const mediaPromises = Object.keys(this.userWatchlistSorted).map((media: any) => {
                     const id = this.userWatchlistSorted[media].id;
                     const type = this.userWatchlistSorted[media].mediaType;
 
-                    //* fetch media info based on id and type.
-                    const data = await fetchMediaWithID({ appendResponses: false, id, type });
+                    return new Promise((resolve, reject) => {
+                        //* fetch media info based on id and type.
+                        const data = fetchMediaWithID({ appendResponses: false, id, type });
 
-                    if (!data) continue;
+                        if (!data) reject();
 
-                    const date_added_wl = this.userWatchlistSorted[media].date_added.seconds
-                    // append new field - date added to watchlust.
-                    wlTempArray.push({ ...data, date_added_wl, media_type: type })
-                }
+                        resolve(data)
+
+                    }).then((data: any) => {
+                        //* get date media added to watchlist from store.
+                        const date_added_wl = this.userWatchlistSorted[media].date_added.seconds
+
+                        // append new field - date added to data.
+                        return { ...data, date_added_wl, media_type: type }
+                    })
+
+                })
+
+                //resolve all the promises - async calls to fetchMediaID. 
+                const mediaData = await Promise.all(mediaPromises)
+
+                //* OLD way - slower
+                // for (var media in this.userWatchlistSorted) {
+                //     const id = this.userWatchlistSorted[media].id;
+                //     const type = this.userWatchlistSorted[media].mediaType;
+
+                //     //* fetch media info based on id and type.
+                //     const data = await fetchMediaWithID({ appendResponses: false, id, type });
+
+                //     if (!data) continue;
+
+                //     const date_added_wl = this.userWatchlistSorted[media].date_added.seconds
+                //     // append new field - date added to watchlust.
+                //     wlTempArray.push({ ...data, date_added_wl, media_type: type })
+                // }
 
                 this.watchlistData = {
-                    data: wlTempArray,
+                    data: mediaData,
                     totalPages: 1,
                     totalResults: this.userWatchlistTotal
                 }

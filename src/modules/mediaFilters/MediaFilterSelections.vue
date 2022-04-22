@@ -7,7 +7,7 @@
 
                 <input class="form-check-input shadow-none sort-by-input" type="radio"
                     :name="`${name}-'sort-by-option'`" :value="option.id" v-model="filterState.sortBy"
-                    :checked="filterOptions.sortBy?.defaultId === option.id" :id="option.id" @change="stateHandler" />
+                    :checked="filterState?.sortBy === option.id" :id="option.id" @change="stateHandler" />
                 <label class="form-check-label" :for="option.id">
                     {{ option.label }}
                 </label>
@@ -28,7 +28,7 @@
         <hr class="m-0" />
 
         <!-- Genre Filter -->
-        <AccordianItem id="genres" title="Genres" :isExpanded="initCollapsedAccordion">
+        <AccordianItem id="genres" title="Genres" :isExpanded="genreUrlQueried() ? true : initCollapsedAccordion">
             <div class="d-flex justify-content-around gap-2 align-items-center flex-wrap w-100">
                 <div v-if="filterOptions.genre.isLoading">
                     <skeletor :height="300" class="rounded-0"></skeletor>
@@ -44,7 +44,7 @@
         <hr class="m-0" />
 
         <!-- Watch provider options -->
-        <AccordianItem id="watch_providers" title="Watch Providers" :isExpanded="initCollapsedAccordion">
+        <AccordianItem id="watch_providers" title="Watch Providers" :isExpanded="watchProviderUrlQueried() ? true : initCollapsedAccordion">
             <div class="pt-3 px-1 d-flex gap-2 flex-row flex-wrap align-items-center justify-content-between">
                 <div :key="item.provider_id" v-for="(item) in filterOptions.watchProviders.data" class="cont-checkbox">
                     <input type="checkbox" class="image-checkbox-input" :id="item.provider_id" :value="item.provider_id"
@@ -101,12 +101,11 @@ export default defineComponent({
         name: String,
         mediaType: String as PropType<MediaTypes>,
         filterState: {} as PropType<{ genre: Array<number>, sortBy: String, runtime: Array<number>, watchProviders: Array<number> }>,
-        stateHandler: Function as PropType<((payload: MouseEvent) => void)>
+        stateHandler: Function as PropType<((payload: MouseEvent | Event) => void)>
     },
     async created() {
         await this.fetchGenreOptions();
         await this.fetchWatchProviderOptions();
-
     },
     methods: {
         async fetchGenreOptions(): Promise<void> {
@@ -145,6 +144,12 @@ export default defineComponent({
                 this.filterOptions.watchProviders.isLoading = false
 
             }
+        },
+        genreUrlQueried(): boolean {
+            return !!this.$route.query.genre
+        },
+        watchProviderUrlQueried(): boolean {
+            return !!this.$route.query.watch_provider
         }
     }
 })

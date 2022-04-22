@@ -1,5 +1,6 @@
 <template >
-    <InfiniteScrollContainer :media="filteredMedia" :page="page" :page-increment-handler="pageIncrementor" :next-page-handler="getNextPageData">
+    <InfiniteScrollContainer :media="filteredMedia" :page="page" :page-increment-handler="pageIncrementor"
+        :next-page-handler="getNextPageData">
         <div class="d-flex w-100 align-items-start gap-2">
             <div class="d-md-flex flex-column mr-3 d-none align-items-start justify-content-center filter-container sticky-top shadow-lg rounded-3 p-3"
                 style="min-width: 300px;width:300px;z-index: 10;top: 40px;background-color: #F9F6F0;">
@@ -59,6 +60,7 @@ import type { MediaDataList } from "./types";
 import MediaList from "./MediaList.vue";
 import MediaCountHeader from "./components/MediaCountHeader.vue";
 import InfiniteScrollContainer from "./InfiniteScrollContainer.vue";
+import { tvSortByOptions, filmSortByOptions } from "../mediaFilters/filterData/sortBy";
 
 export default defineComponent({
     components: {
@@ -78,7 +80,7 @@ export default defineComponent({
             filterState: {
                 watchRegion: "AU",
                 genre: [] as Array<number>,
-                sortBy: "" as String,
+                sortBy: this.mediaType === "tv" ? tvSortByOptions.defaultId : filmSortByOptions.defaultId as String,
                 runtime: [runtimeData.min, runtimeData.max] as Array<number>,
                 watchProviders: [] as Array<number>,
             },
@@ -92,8 +94,13 @@ export default defineComponent({
     async created() {
         //* check if genre is in query params.
         const urlGenre = this.$route.query.genre
+        const urlWatchProvider = this.$route.query.watch_provider
+
         if (urlGenre) {
             this.filterState.genre.push(parseInt(urlGenre as string))
+        }
+        if (urlWatchProvider) {
+            this.filterState.watchProviders.push(parseInt(urlWatchProvider as string))
         }
 
         //* get initial data with initial filter selections

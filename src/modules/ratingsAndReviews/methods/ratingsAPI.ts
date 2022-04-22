@@ -8,6 +8,7 @@ import {
   query,
   where,
   getDocs,
+  increment
 } from "@firebase/firestore";
 import type { UserRatingInfoInDb } from "../types";
 
@@ -100,6 +101,17 @@ export const addNewRating = async ({
   rating: number;
 }) => {
   try {
+    if(!userId) {
+      throw Error("user not found")
+    };
+
+    //* update rating count in user doc.
+    const userDocRef = doc(firestore, "users", userId);
+
+    await updateDoc(userDocRef, {
+      ratingCount: increment(1)
+    })
+
     const ratingDocRef = collection(firestore, "ratings");
 
     await addDoc(ratingDocRef, {

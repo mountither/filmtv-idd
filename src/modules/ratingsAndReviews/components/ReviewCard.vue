@@ -6,9 +6,8 @@
             <div class="d-flex flex-column">
                 <span v-if="!agentImage"
                     :class="`${agentIsMedia ? 'media-image' : 'profile-image'} bg-tertiary rounded-circle p-0`" />
-                <img v-else @click="agentIsMedia ? navigateToMedia() : undefined"
-                    :src="`${isFromTmdb(agentImage) ? `${IMAGE_BASE_URL_500}${agentImage}` : agentImage.substring(1)}`"
-                    :class="`${agentIsMedia ? 'rounded-2 media-image' : 'rounded-circle profile-image'} shadow-sm`" />
+                <img v-else @click="agentIsMedia ? navigateToMedia() : undefined" :src="getDisplayPhoto()"
+                    :class="`${agentIsMedia ? 'rounded-2 media-image' : 'rounded-circle profile-image border'} shadow-sm`" />
                 <div class="mt-1">
                     <p class="m-0 agent-name text-secondary">{{ agentName }}
                     </p>
@@ -24,10 +23,10 @@
             <p v-if="hasSpoilers" style="font-weight: 600;" class="m-0 text-danger">Spoiler
                 Alert!</p>
             <p v-if="content" class="my-2 review-content ">{{
-                displayReviewContent(content).text
+                    displayReviewContent(content).text
             }}<span @click="openReadMoreModal(content)" class="btn-link read-more-lnk">{{
-    displayReviewContent(content).isLong ?
-        "... read more" : ""
+        displayReviewContent(content).isLong ?
+            "... read more" : ""
 }}</span></p>
         </div>
         <!-- bottom section - tmdb review ? and time ago published -->
@@ -51,6 +50,7 @@ import { IMAGE_BASE_URL_500 } from "@/common/api/tmdb";
 import { format, formatDistance } from 'date-fns';
 import StarRating from 'vue-star-rating'
 import type { MediaTypes } from "@/modules/media/types";
+import type { Timestamp } from "@firebase/firestore";
 
 export default defineComponent({
     data() {
@@ -84,13 +84,27 @@ export default defineComponent({
         hasSpoilers: Boolean || undefined,
         content: String || undefined,
         isLocalReview: Boolean || undefined,
-        reviewedAt: String || Object || undefined,
+        reviewedAt: {} as PropType<Timestamp> || String || undefined,
     },
     components: { ReadMoreContentModal, StarRating },
     methods: {
+        getDisplayPhoto(): string | undefined {
+            if (!this.agentImage) return;
 
-        isFromTmdb(url: string): boolean {
-            return !url.includes("gravatar")
+            const tmdbImgUrl = `${IMAGE_BASE_URL_500}${this.agentImage}`
+            //if from local db, img path is full
+            if (this.isLocalReview && !this.agentIsMedia) {
+                return this.agentImage
+            }
+
+            //check if image is from tmdb. sometimes tmdb stores user image @ gravatar + if agent is media, use tmdb url
+            if (!this.agentImage.includes("gravatar") || this.agentIsMedia) {
+                return tmdbImgUrl
+            } else {
+                //remove leading forward slash from gravatar url 
+                // (e.g /https://...)
+                return this.agentImage.substring(1)
+            }
         },
         displayReviewContent(content: string): { isLong: boolean, text: string } {
             let isLong = false;

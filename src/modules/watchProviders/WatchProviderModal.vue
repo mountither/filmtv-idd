@@ -1,5 +1,5 @@
 <template >
-    <ModalContainer modal-name="watchProviderModal" title="Watch Providers" :close-handler="handler">
+    <ModalContainer name="watchProviderModal" title="Watch Providers" :close-handler="handler">
 
         <!-- Content -->
         <div class="p-2">

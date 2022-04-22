@@ -1,5 +1,5 @@
 <template>
-    <div class="media-card shadow-md rounded-3 border overflow-hidden">
+    <div class="media-card shadow-md rounded-3 border overflow-hidden p-0">
         <router-link :to="`/media/${mediaType}/${id}`" class="text-decoration-none cursor-pointer">
             <img v-if="posterPath" :src="IMAGE_BASE_URL_500 + posterPath" class="poster" />
             <div v-else class="poster bg-black opacity-25"></div>
@@ -10,7 +10,7 @@
                 :show-rating="starRatingConfig.showText" :increment="0.5" :star-size="20">
             </star-rating>
 
-            <p class="text-black-50">{{ ratedAt }}</p>
+            <p class="text-black-50 m-0">{{ ratedAt }}</p>
         </div>
 
     </div>

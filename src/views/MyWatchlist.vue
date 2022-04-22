@@ -3,7 +3,7 @@
 
         <h1 style="font-weight: 300;">My Watchlist <span style="font-weight: 800;">({{ userWatchlistTotal }})</span>
         </h1>
-        <section class="media-card row mt-5 pb-5 pt-3 gap-2 px-2 d-flex justify-content-center">
+        <section class="row mt-5 pb-5 pt-3 gap-2 px-2 d-flex justify-content-center">
             <MediaList :is-loading-media-data="isLoadingMediaData" :is-fetching-media-data="isFetchingMediaData"
                 :media="watchlistData" :show-media-type-on-card="mediaCardConfig.showMediaType" />
         </section>
@@ -64,7 +64,6 @@ export default defineComponent({
                         // append new field - date added to data.
                         return { ...data, date_added_wl, media_type: type }
                     })
-
                 })
 
                 //resolve all the promises - async calls to fetchMediaID. 
@@ -84,8 +83,6 @@ export default defineComponent({
                 //     // append new field - date added to watchlust.
                 //     wlTempArray.push({ ...data, date_added_wl, media_type: type })
                 // }
-
-                console.log(mediaData)
 
                 this.watchlistData = {
                     data: mediaData.filter(media => media !== undefined),

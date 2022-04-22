@@ -40,8 +40,8 @@
     "vue-tweet": "1.0.2",
     "vuex": "^4.0.2"
   },
-  "engines" : { 
-    "node" : ">=14.0.0 <17"
+  "engines": {
+    "node": ">=14.0.0 <17"
   },
   "devDependencies": {
     "@types/node": "^16.11.25",

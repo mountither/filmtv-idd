@@ -25,3 +25,23 @@ export type ReviewForm = {
   rating: number;
 };
 
+export type RatingData = {
+  mediaId: string | undefined;
+  rating: number;
+  mediaPoster: string | undefined;
+  mediaTitle: string | undefined;
+  ratedAt: string | undefined;
+  mediaType: MediaTypes;
+};
+
+export type ReviewData = {
+  title: string;
+  reviewedAt: string;
+  rating: number;
+  content: string;
+  mediaId: string;
+  mediaType: MediaTypes;
+  mediaTitle: string;
+  mediaPoster: string;
+  hasSpoilers: boolean;
+};

@@ -1,5 +1,5 @@
 <template>
-    <ModalContainer title="Your Rating" :close-handler="modalHandler" name="createRatingModal">
+    <ModalContainer title="Your Rating" :close-handler="closeRatingModal" name="createRatingModal">
         <!-- Content -->
         <div class="my-5 d-flex flex-column align-self-center justify-content-center">
             <star-rating v-model:rating="rating" :star-size="60" :show-rating="showRating"></star-rating>
@@ -90,7 +90,6 @@ export default defineComponent({
                     });
                     return;
                 }
-
                 if (this.userMediaRating?.isExists) {
                     //* update rating doc only if rating is not changed
                     if (this.userMediaRating.rating !== this.rating) {

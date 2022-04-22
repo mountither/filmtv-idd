@@ -9,8 +9,10 @@ import {
   where,
   getDocs,
   updateDoc,
-  orderBy
+  orderBy,
+  increment
 } from "@firebase/firestore";
+import { getAuth } from "firebase/auth";
 import type { UserReviewInfoInDb } from "../types";
 
 //! Read Operations
@@ -77,7 +79,7 @@ export const fetchAllMediaReviews = async ({
 
     return reviewData;
   } catch (error) {
-    console.log(error)
+    console.log(error);
 
     throw Error();
   }
@@ -106,6 +108,10 @@ export const updateReview = async ({
     await updateDoc(reviewRef, {
       title: title,
       content: content,
+      author_details: {
+        name: getAuth().currentUser?.displayName || null,
+        avatar_path: getAuth().currentUser?.photoURL || null,
+      },
       has_spoilers: hasSpoilers,
       updated_at: Timestamp.now(),
       rating: rating,
@@ -138,17 +144,24 @@ export const addNewReview = async ({
   title,
   content,
   hasSpoilers,
-  rating,
   userId,
+  rating,
 }: {
   mediaIdentifier: string;
   title: string;
   content: string;
   hasSpoilers: boolean | undefined;
   rating: number;
-  userId: string;
+  userId: string | undefined;
 }) => {
   try {
+    if (!userId) return;
+    //* update rating count in user doc.
+    const userDocRef = doc(firestore, "users", userId);
+
+    await updateDoc(userDocRef, {
+      reviewCount: increment(1),
+    });
     const reviewDocRef = collection(firestore, "reviews");
 
     await addDoc(reviewDocRef, {
@@ -156,6 +169,10 @@ export const addNewReview = async ({
       content: content,
       has_spoilers: hasSpoilers || null,
       author_id: userId,
+      author_details: {
+        name: getAuth().currentUser?.displayName || null,
+        avatar_path: getAuth().currentUser?.photoURL || null,
+      },
       mediaId: mediaIdentifier,
       updated_at: Timestamp.now(),
       created_at: Timestamp.now(),

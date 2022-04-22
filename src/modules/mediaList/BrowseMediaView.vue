@@ -124,7 +124,6 @@ export default defineComponent({
         async getFilteredMediaData(): Promise<void> {
             try {
                 if (!this.mediaType) return;
-                console.log(JSON.stringify(this.filterState))
                 let filters: Array<string> = [];
 
                 if (this.filterState.sortBy) {

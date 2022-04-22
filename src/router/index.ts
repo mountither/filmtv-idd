@@ -81,6 +81,24 @@ const router = createRouter({
       meta: { layout: "main" },
       beforeEnter: AuthGuard,
     },
+    {
+      path: "/myreviews",
+      name: "my-reviews",
+      component: () => {
+        return import("@/views/MyReviews.vue");
+      },
+      meta: { layout: "main" },
+      beforeEnter: AuthGuard,
+    },
+    {
+      path: "/myratings",
+      name: "my-ratings",
+      component: () => {
+        return import("@/views/MyRatings.vue");
+      },
+      meta: { layout: "main" },
+      beforeEnter: AuthGuard,
+    },
   ],
 });
 

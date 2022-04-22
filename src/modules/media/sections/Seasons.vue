@@ -37,9 +37,6 @@ export default defineComponent({
         isLoading: Boolean,
         seasonData: Array as PropType<Season[] | undefined>,
     },
-    mounted() {
-        console.log(this.seasonData)
-    },
     computed: {
         filteredSeasons(): Season[] | void {
             if (!this.seasonData) return;

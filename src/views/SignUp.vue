@@ -92,7 +92,7 @@ import AuthContainer from '@/modules/auth/AuthContainer.vue';
 import { useVuelidate } from '@vuelidate/core';
 import { minLength, required, helpers, maxLength, email, sameAs } from '@vuelidate/validators'
 import { currentUser } from '../firebaseConfig';
-import {getAuthErrorString} from '@/modules/auth/utils/errorStrings'
+import { getAuthErrorString } from '@/modules/auth/utils/errorStrings'
 
 export default defineComponent({
     data() {
@@ -149,8 +149,12 @@ export default defineComponent({
         async onSignup() {
             const isFormValid = await this.v$.$validate();
             if (!isFormValid) return;
+
+            // * generate a random image for user.
+            const userProfileImage = `https://avatars.dicebear.com/api/identicon/${Math.random() * 501}.svg`
+
             //* dispatch user registration with relevant info.
-            await this.$store.dispatch('registerUser', { email: this.form.email, password: this.form.password, displayName: this.form.name });
+            await this.$store.dispatch('registerUser', { email: this.form.email, password: this.form.password, displayName: this.form.name, photoUrl: userProfileImage });
 
             //* check if user logged in after registration. 
             if (await currentUser()) {

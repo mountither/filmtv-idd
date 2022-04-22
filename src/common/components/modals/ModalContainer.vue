@@ -1,5 +1,5 @@
 <template>
-    <vue-final-modal :name="name" classes="modal-container" content-class="modal-content">
+    <vue-final-modal :name="name" classes="modal-container" @click-outside="closeHandler" content-class="modal-content">
 
 
         <!-- Header -->

@@ -43,6 +43,8 @@ export default {
   actions: {
     async registerUser({ commit }: { commit: any }, payload: any) {
       try {
+        if (getAuth().currentUser) return;
+        
         commit("setUserLoading", true);
 
         commit("clearError");
@@ -55,6 +57,7 @@ export default {
         const user = userCredential.user;
         await updateProfile(user, {
           displayName: payload.displayName,
+          photoURL: payload.photoUrl,
         });
         await setDoc(doc(firestore, "users", user.uid), {
           name: user.displayName,
@@ -103,7 +106,7 @@ export default {
       }
     },
     autoSignIn({ commit }: { commit: any }, payload: any) {
-      commit("setUserLoading",true);
+      commit("setUserLoading", true);
 
       commit("setUser", {
         id: payload.uid,
@@ -112,7 +115,6 @@ export default {
         photoUrl: payload.photoURL,
       });
       commit("setUserLoading", false);
-
     },
     clearUser({ commit }: { commit: any }) {
       commit("setUser", undefined);
@@ -122,7 +124,7 @@ export default {
         await signOut(auth);
         commit("setUser", undefined);
         dispatch("clearUserWatchlist");
-      } catch (error : any) {
+      } catch (error: any) {
         commit("setUserLoading", false);
         commit("setUserError", error.code);
       }

@@ -39,19 +39,22 @@
                     <h1 class="title">{{ mediaData.title || mediaData.name }}</h1>
                     <!-- refactor with mediacard -->
                     <button v-show="isProcessingWatchlistItem" class="btn btn-sm text-white bg-primary" disabled>
-                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                        Loading...
+                        <div class="d-flex flex-row align-items-center justify-content-between">
+                            <font-awesome-icon icon="bookmark" color="white" style="height: 25px" />
+                            <span class="spinner-border spinner-border-sm mx-2" role="status" aria-hidden="true"></span>
+                            Loading...
+                        </div>
+
                     </button>
 
-                    <button v-show="!isProcessingWatchlistItem"
-                        class="btn btn-sm text-white "
+                    <button v-show="!isProcessingWatchlistItem" class="btn btn-sm text-white "
                         :class="isMediaAddedToWl ? 'bg-danger' : 'bg-primary'"
                         @click="!isProcessingWatchlistItem ? manipulateUserWatchlist() : undefined">
                         <div class="d-flex flex-row align-items-center justify-content-between">
                             <font-awesome-icon icon="bookmark" color="white" style="height: 25px" />
                             <p style="font-weight: 600;" class="m-0 px-2">
                                 {{
-                                    `${(isMediaAddedToWl) ? 'Remove from Watchlist' : 'Add to Watchlist'}`
+                                        `${(isMediaAddedToWl) ? 'Remove from Watchlist' : 'Add to Watchlist'}`
                                 }}
                             </p>
 
@@ -140,9 +143,7 @@ import WatchProviderModal from '@/modules/watchProviders/WatchProviderModal.vue'
 import { defineAsyncComponent, defineComponent, getCurrentInstance, ref } from 'vue';
 import { useRoute } from "vue-router";
 import CreateRatingModal from "../modules/ratingsAndReviews/CreateRatingModal.vue";
-
-
-
+import { currentUser } from '@/firebaseConfig';
 
 
 const About = defineAsyncComponent(() =>
@@ -274,10 +275,20 @@ export default defineComponent({
                 }
             },
         },
-        userWatchlistLoading: {
+        userWatchlistError: {
             immediate: true,
             handler(value) {
-                this.isProcessingWatchlistItem = value
+                if (value) {
+                    this.isProcessingWatchlistItem = false;
+                }
+            }
+        },
+        loadingUser: {
+            immediate: true,
+            async handler(value) {
+                if (!value && !await currentUser()) {
+                    this.isProcessingWatchlistItem = false
+                }
             }
         }
     },

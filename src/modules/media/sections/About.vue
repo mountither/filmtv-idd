@@ -22,7 +22,7 @@
                 </router-link>
             </div>
             <div>
-                <p>{{ overview }}</p>
+                <p class="m-0">{{ overview }}</p>
             </div>
         </div>
     </div>

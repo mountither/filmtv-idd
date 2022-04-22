@@ -1,10 +1,12 @@
 <template>
     <div class="my-5">
         <!-- Profile Header -->
-        <section class="d-flex justify-content-between align-items-center">
-            <h1 v-if="user?.name" class="col" style="font-weight: 500;"><span style="font-weight: 300;">Hello,
+        <section class="d-flex justify-content-between align-items-end">
+            <img v-if="user?.photoUrl" :src="user.photoUrl" style="height:70px;width:70px;object-fit:fill;"
+                class="rounded-circle mx-2 border" />
+            <h1 v-if="user?.name" class="col m-0" style="font-weight: 500;"><span style="font-weight: 300;">Hello,
                 </span>{{ user.name }}</h1>
-            <h1 v-else class="col">My Profile</h1>
+            <h1 v-else class="col m-0">My Profile</h1>
 
             <button class="btn btn-md btn-danger rounded-3 text-white" @click="onSignOut" style="font-weight: 800;">Sign
                 out</button>
@@ -12,7 +14,9 @@
         <!-- User's Watchlist Preview -->
         <section class="mt-5">
             <div class="d-flex align-items-center justify-content-between mb-2">
-                <h3 class="col text-left">My Watchlist <span style="font-weight: 300;">({{ userWatchlistTotal }})</span>
+                <h3 class="col text-left">My Watchlist <span style="font-weight: 300;">({{ userWatchlistTotal ||
+                        0
+                }})</span>
                 </h3>
                 <button v-if="userWatchlistTotal > 10" type="button" class="btn btn-link text-tertiary p-0 shadow-none"
                     @click="onViewAllPress('/mywatchlist')" style="font-weight: 600;">
@@ -46,8 +50,8 @@
             <div class="d-flex align-items-center justify-content-between mb-2">
                 <h3 class="col text-left">My Ratings <span style="font-weight: 300;">({{ ratings.total }})</span>
                 </h3>
-                <button v-if="ratings.total > 10" type="button" class="btn btn-link text-tertiary p-0 shadow-none"
-                    @click="" style="font-weight: 600;">
+                <button v-if="ratings.total > 5" type="button" class="btn btn-link text-tertiary p-0 shadow-none"
+                     @click="onViewAllPress('/myratings')"  style="font-weight: 600;">
                     view all
                 </button>
             </div>
@@ -61,7 +65,6 @@
                     <MediaRatingCard v-for="(item) in ratings.data" :key="item.mediaId" :poster-path="item.mediaPoster"
                         :id="item.mediaId" :media-type="item.mediaType" :rating="item.rating"
                         :rated-at="item.ratedAt" />
-
                 </div>
                 <div v-else class="col text-center">
                     <p>No Ratings found</p>
@@ -80,8 +83,8 @@
             <div class="d-flex align-items-center justify-content-between mb-2">
                 <h3 class="col text-left">My Reviews <span style="font-weight: 300;">({{ reviews.total }})</span>
                 </h3>
-                <button v-if="reviews.total > 10" type="button" class="btn btn-link text-tertiary p-0 shadow-none"
-                    @click="" style="font-weight: 600;">
+                <button v-if="reviews.total > 5" type="button" class="btn btn-link text-tertiary p-0 shadow-none"
+                    @click="onViewAllPress('/myreviews')" style="font-weight: 600;">
                     view all
                 </button>
             </div>
@@ -120,37 +123,19 @@ import { currentUser, firestore } from "@/firebaseConfig";
 import MediaCard from '@/modules/media/MediaCard.vue';
 import type { MediaTypes } from "@/modules/media/types";
 import {
-    collection, getDocs, limit, orderBy, query,
+    collection, doc, getDoc, getDocs, limit, orderBy, query,
     where
 } from "@firebase/firestore";
 import { defineComponent } from "vue";
 import { formatDistance } from 'date-fns';
 import MediaRatingCard from '@/modules/ratingsAndReviews/components/MediaRatingCard.vue';
 import ReviewCard from "@/modules/ratingsAndReviews/components/ReviewCard.vue";
+import type {RatingData, ReviewData} from '@/modules/ratingsAndReviews/types'
 
 const PREVIEW_ITEMS_MAX = 8;
 type MediaDataTypes = MovieTypes & TVTypes & { date_added_wl?: number, media_type: MediaTypes }
 
-type RatingData = {
-    mediaId: string | undefined,
-    rating: number,
-    mediaPoster: string | undefined,
-    mediaTitle: string | undefined,
-    ratedAt: string | undefined,
-    mediaType: MediaTypes,
-}
 
-type ReviewData = {
-    title: string,
-    reviewedAt: string,
-    rating: number,
-    content: string,
-    mediaId: string,
-    mediaType: MediaTypes,
-    mediaTitle: string,
-    mediaPoster: string,
-    hasSpoilers: boolean,
-}
 
 export default defineComponent({
     components: { MediaCard, MediaRatingCard, ReviewCard },
@@ -233,7 +218,7 @@ export default defineComponent({
                     ratingDocRef,
                     where("author_id", "==", this.user.id),
                     orderBy("created_at", "desc"),
-                    // limit(5)
+                    limit(5)
                 );
 
                 const querySnapshot = await getDocs(ratingQuery);
@@ -263,8 +248,10 @@ export default defineComponent({
                         mediaType: type,
                     })
                 }
+                //* grab user's rating count from their document
+                const { ratingCount } = Object(await this.userRatingReviewCount);
 
-                this.ratings.total = querySnapshot.size;
+                this.ratings.total = ratingCount;
                 this.ratings.data = tempRatingData;
 
                 this.ratings.isLoading = false
@@ -280,7 +267,7 @@ export default defineComponent({
         async fetchReviews(): Promise<void> {
             try {
 
-                //* retrieve user's rating documents 
+                //* retrieve user's review documents 
                 const reviewDocRef = collection(firestore, "reviews");
 
                 const reviewQuery = query(
@@ -295,7 +282,6 @@ export default defineComponent({
                 for (var doc of querySnapshot.docs) {
                     //* fetch relevant rating info for media
                     //* title, poster path, id, media type, rating number, rating created_at,
-                    console.log(JSON.stringify(doc.data(), null, 4))
 
                     const [id, type] = doc.data().mediaId.split("-");
                     //* fetch media info based on id and type.
@@ -318,10 +304,13 @@ export default defineComponent({
                     })
                 }
 
-                this.reviews.total = querySnapshot.size;
+                //* grab user's review count from their document
+                const { reviewCount } = Object(await this.userRatingReviewCount);
+
+                this.reviews.total = reviewCount;
                 this.reviews.data = tempReviewData;
 
-                console.log(JSON.stringify(this.reviews.data, null, 4))
+                // console.log(JSON.stringify(this.reviews.data, null, 4))
                 this.reviews.isLoading = false
 
             } catch (error) {
@@ -357,6 +346,22 @@ export default defineComponent({
         userWatchlistTotal() {
             return this.$store.getters.userWatchlistTotal
         },
+        async userRatingReviewCount(): Promise<{ ratingCount: number, reviewCount: number } | undefined> {
+            try {
+                const userDocRef = doc(firestore, "users", this.user.id)
+                const query = await getDoc(userDocRef);
+                const ratingCount = query?.data()?.ratingCount;
+                const reviewCount = query?.data()?.reviewCount;
+
+                return {
+                    ratingCount: ratingCount || 0,
+                    reviewCount: reviewCount || 0,
+                }
+
+            } catch (error) {
+                console.log(error)
+            }
+        }
     },
     watch: {
         userWatchlist: {

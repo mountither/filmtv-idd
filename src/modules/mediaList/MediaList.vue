@@ -50,9 +50,6 @@ export default defineComponent({
             required: false,
         },
     },
-    mounted() {
-        console.log(this.media)
-    }
 })
 </script>
 <style>

@@ -264,9 +264,9 @@ p {
 
 @include media-breakpoint-down(md) {
     .media-card {
-        min-width: 125px;
-        width: 125px;
-        height: 230px;
+        min-width: 150px;
+        width: 150px;
+        height: 250px;
     }
 
     .poster {

@@ -1,5 +1,7 @@
 <template >
-    <ModalContainer title="Your Review" name="createReviewModal" :close-handler="modalHandler">
+    <ModalContainer title="Your Review" name="createReviewModal" :close-handler="closeReviewModal"
+    
+    >
         <!-- Content -->
         <div>
             <form class="row gap-2 needs-validation px-4 py-3" novalidate @submit.prevent="submitReview">
@@ -18,8 +20,7 @@
                     <label for="content" class="form-label">Description</label>
                     <div class="input-group">
                         <textarea type="text" name="content" required id="content" v-model.trim="form.content"
-                            style="height: 150px;"
-                            class="w-100 form-control" aria-label="description input" />
+                            style="height: 150px;" class="w-100 form-control" aria-label="description input" />
                     </div>
 
                     <div class="position-absolute bottom-5" v-for="(error, index) of v$.form.content.$errors"
@@ -33,13 +34,10 @@
                     <div class="position-relative d-flex flex-row align-items-center">
                         <star-rating v-model:rating="form.rating" :star-size="40" :show-rating="showRating">
                         </star-rating>
-                        <div v-if="form.rating"
-                            class="position-absolute bottom-0 d-flex align-items-center justify-content-center bg-primary rounded-circle p-2"
-                            style="width:60px;height:60px; right: 0px;">
-                            <p class="m-0 text-white" style="font-size: 30px;font-weight: 700;">
-                                {{ form.rating }}<span style="font-size: 14px; font-weight: 200;">/5</span>
-                            </p>
+                        <div class="position-absolute" style="bottom:0px; right:0px">
+                        <NumericalRating v-if="form.rating" :rating="form.rating" :size="60" :number-font-size="30"/>
                         </div>
+
                     </div>
                 </div>
                 <div class="form-check form-switch mt-3">
@@ -50,7 +48,7 @@
                         review includes of spoilers</label>
                 </div>
                 <div class="mt-5 mx-0 row gap-3">
-                    <button class="btn col btn-danger text-white btn-lg" style="font-weight: 600;" @click="closeModal"
+                    <button class="btn col btn-danger text-white btn-lg" style="font-weight: 600;" @click="closeReviewModal"
                         type="button">Cancel</button>
                     <button v-if="!loading" class="btn col btn-secondary text-white btn-lg" style="font-weight: 600;"
                         :disabled="loading && v$.$invalid" type="submit">Submit</button>
@@ -75,7 +73,7 @@ import { addNewReview, updateReview } from './methods/reviewsAPI';
 import ModalContainer from '@/common/components/modals/ModalContainer.vue';
 
 
-
+import NumericalRating from "./components/NumericalRating.vue";
 export default defineComponent({
     data() {
         return {
@@ -90,7 +88,7 @@ export default defineComponent({
         }
     },
     setup: () => ({ v$: useVuelidate() }),
-    components: { StarRating, ModalContainer },
+    components: { StarRating, ModalContainer, NumericalRating },
     props: {
         mediaId: Number,
         mediaType: String as PropType<MediaTypes>,
@@ -168,7 +166,7 @@ export default defineComponent({
         }
     },
     methods: {
-        async closeModal(): Promise<void> {
+        async closeReviewModal(): Promise<void> {
             await this.$vfm.hide('createReviewModal');
             this.v$.$reset();
 
@@ -267,7 +265,7 @@ export default defineComponent({
                     });
                 }
 
-                await this.closeModal();
+                await this.closeReviewModal();
                 if (this.refetchRatingData) {
                     this.refetchRatingData()
                 }
@@ -291,7 +289,7 @@ export default defineComponent({
 @import "@/assets/sass/modal.scss";
 
 
-label{
+label {
     font-weight: 800;
 }
 </style>

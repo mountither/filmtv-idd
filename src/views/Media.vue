@@ -49,7 +49,7 @@
 
                     <button v-show="!isProcessingWatchlistItem" class="btn btn-sm text-white "
                         :class="isMediaAddedToWl ? 'bg-danger' : 'bg-primary'"
-                        @click="!isProcessingWatchlistItem ? manipulateUserWatchlist() : undefined">
+                        @click="!isProcessingWatchlistItem ? triggerWatchlist() : undefined">
                         <div class="d-flex flex-row align-items-center justify-content-between">
                             <font-awesome-icon icon="bookmark" color="white" style="height: 25px" />
                             <p style="font-weight: 600;" class="m-0 px-2">
@@ -140,7 +140,7 @@ import NoAccessModal from '@/common/components/modals/NoAccessModal.vue';
 import useManipulateUserWatchlist from '@/modules/media/composables/useManipulateUserWatchlist';
 import type { MediaTypes } from '@/modules/media/types';
 import WatchProviderModal from '@/modules/watchProviders/WatchProviderModal.vue';
-import { defineAsyncComponent, defineComponent, getCurrentInstance, ref } from 'vue';
+import { defineAsyncComponent, defineComponent, getCurrentInstance, ref, type Ref } from 'vue';
 import { useRoute } from "vue-router";
 import CreateRatingModal from "../modules/ratingsAndReviews/CreateRatingModal.vue";
 import { currentUser } from '@/firebaseConfig';
@@ -225,6 +225,10 @@ export default defineComponent({
 
             }
         },
+        triggerWatchlist(){
+            this.mediaTitleInWlToast = this.mediaData.title || this.mediaData.name
+            this.manipulateUserWatchlist();
+        }
     },
     setup() {
         const route = useRoute();
@@ -233,14 +237,14 @@ export default defineComponent({
         const isMediaAddedToWl = ref(false as boolean)
         const isProcessingWatchlistItem = ref(true as boolean)
         const isErrorWl = ref(false as boolean)
-
+        const mediaTitleInWlToast = ref(undefined as string | undefined)
 
         //* get toast instance
         const toastInstance = getCurrentInstance()?.appContext.config.globalProperties.$toast;
 
         const mediaInfo = {
             id: route?.params.slug as string,
-            title: route?.params.media_type as string | undefined,
+            title: mediaTitleInWlToast as Ref<string | undefined>,
             type: route?.params.media_type as MediaTypes | undefined
         }
 
@@ -260,6 +264,7 @@ export default defineComponent({
             isMediaAddedToWl,
             isProcessingWatchlistItem,
             isErrorWl,
+            mediaTitleInWlToast
         }
     },
     watch: {

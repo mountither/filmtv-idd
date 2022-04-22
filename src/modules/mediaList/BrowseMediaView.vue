@@ -10,7 +10,7 @@
                 </div>
             </div>
 
-            <div class="row pb-5 pt-3 gap-2 px-2 justify-content-around
+            <div class="row pb-5 pt-3 gap-2 justify-content-around
             align-items-center " style="width: 100vw;">
                 <!-- Header -->
                 <div class="d-flex flex-row align-items-center justify-content-between">

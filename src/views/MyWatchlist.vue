@@ -3,9 +3,10 @@
 
         <h1 style="font-weight: 300;">My Watchlist <span style="font-weight: 800;">({{ userWatchlistTotal }})</span>
         </h1>
-        <section class="row mt-5 pb-5 pt-3 gap-2 px-2 d-flex justify-content-center">
+        <section class="row mt-5 pb-5 pt-3 gap-2 d-flex justify-content-center">
             <MediaList :is-loading-media-data="isLoadingMediaData" :is-fetching-media-data="isFetchingMediaData"
-                :media="watchlistData" :show-media-type-on-card="mediaCardConfig.showMediaType" />
+                :media="watchlistData" 
+                :show-media-type-on-card="mediaCardConfig.showMediaType" />
         </section>
     </section>
 </template>

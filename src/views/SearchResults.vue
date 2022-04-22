@@ -15,7 +15,7 @@
             </div>
 
             <!-- media list section -->
-            <section class="media-card row mt-5 pb-5 pt-3 gap-2 px-2 d-flex justify-content-center">
+            <section class="media-card row mt-5 pb-5 pt-3 gap-2 d-flex justify-content-center">
                 <MediaList :is-loading-media-data="isLoadingMediaData" :is-fetching-media-data="isFetchingMediaData"
                     :media="searchResults" :show-media-type-on-card="mediaCardConfig.showMediaType" />
             </section>

@@ -26,7 +26,7 @@ export default function useManipulateUserWatchlist(
   isErrorWl: Ref<boolean>,
   mediaInfo: {
     id: string | number | undefined;
-    title: string | undefined;
+    title: Ref<string | undefined> | string | undefined;
     type: MediaTypes | undefined;
   }
 ) {
@@ -50,6 +50,11 @@ export default function useManipulateUserWatchlist(
       }
       isProcessingWatchlistItem.value = true;
 
+      const mediaTitle =
+        typeof mediaInfo.title === "string"
+          ? mediaInfo.title
+          : mediaInfo?.title?.value;
+
       //* get ref to wl document and check if exists. if doc exists update doc, else set doc with new media.
       const docRef = doc(firestore, "watchlists", userId);
       const docSnap = await getDoc(docRef);
@@ -67,7 +72,7 @@ export default function useManipulateUserWatchlist(
           });
 
           toastInstance.open({
-            message: `${mediaInfo.title} was removed from your watchlist.`,
+            message: `${mediaTitle} was removed from your watchlist.`,
             type: "info",
           });
         } else {
@@ -80,7 +85,7 @@ export default function useManipulateUserWatchlist(
           });
 
           toastInstance.open({
-            message: `Successfully added ${mediaInfo.title} to your watchlist.`,
+            message: `Successfully added ${mediaTitle} to your watchlist.`,
             type: "success",
           });
         }
@@ -96,7 +101,7 @@ export default function useManipulateUserWatchlist(
           },
         });
         toastInstance.open({
-          message: `Successfully added ${mediaInfo.title} to your watchlist.`,
+          message: `Successfully added ${mediaTitle} to your watchlist.`,
           type: "success",
         });
       }

@@ -1,7 +1,7 @@
 <template>
     <div class="my-5">
         <!-- Profile Header -->
-        <section class="d-flex justify-content-between align-items-end">
+        <section class="d-flex flex-sm-row flex-column justify-content-between align-items-sm-end align-items-center gap-3">
             <img v-if="user?.photoUrl" :src="user.photoUrl" style="height:70px;width:70px;object-fit:fill;"
                 class="rounded-circle mx-2 border" />
             <h1 v-if="user?.name" class="col m-0" style="font-weight: 500;"><span style="font-weight: 300;">Hello,
@@ -27,7 +27,7 @@
             <skeletor v-if="watchlist.isLoading" :height="330" />
             <div v-else>
                 <div v-if="watchlist.data && watchlist.data.length > 0"
-                    class="container-full d-flex px-3 pb-2 px-xl-0 flex-row gap-2"
+                    class="container-full d-flex px-3 pb-2 px-xl-0 flex-row gap-2 py-3"
                     style="overflow-x: auto; overflow-y: hidden;">
                     <MediaCard v-for="(item, index) in watchlist.data" :key="item.id" :show-date="showMediaDate"
                         :id="item.id" :title="item.title || item.name || 'untitled'" :poster-path="item.poster_path"
@@ -59,10 +59,11 @@
             <skeletor v-if="ratings.isLoading" :height="330" />
             <div v-else>
                 <div v-if="ratings.data && ratings.data.length > 0"
-                    class="container-full d-flex px-3 pb-2 px-xl-0 flex-row gap-2"
+                    class="container-full d-flex px-3 pb-2 py-3 px-xl-0 flex-row gap-2"
                     style="overflow-x: auto; overflow-y: hidden;">
                     <!-- User Media Rating Card -->
                     <MediaRatingCard v-for="(item) in ratings.data" :key="item.mediaId" :poster-path="item.mediaPoster"
+                    :title="item.mediaTitle"
                         :id="item.mediaId" :media-type="item.mediaType" :rating="item.rating"
                         :rated-at="item.ratedAt" />
                 </div>
@@ -92,7 +93,7 @@
             <skeletor v-if="reviews.isLoading" :height="330" />
             <div v-else>
                 <div v-if="reviews.data && reviews.data.length > 0"
-                    class="container-full d-flex px-3 pb-2 px-xl-0 flex-row gap-2"
+                    class="container-full d-flex px-3 pb-2 px-xl-0 flex-row gap-2 py-3"
                     style="overflow-x: auto; overflow-y: hidden;">
                     <!-- review card -->
                     <ReviewCard v-for="review in reviews.data" :key="review?.id" :agent-image="review.mediaPoster"

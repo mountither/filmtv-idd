@@ -3,22 +3,14 @@
         <!-- Content -->
         <div class="my-5 d-flex flex-column align-self-center justify-content-center">
             <star-rating v-model:rating="rating" :star-size="60" :show-rating="showRating"></star-rating>
-            <div v-if="rating > 0"
-                class="d-flex align-items-center justify-content-center align-self-center bg-primary rounded-circle p-2 text-white mt-4"
-                style="width:100px;height:100px;">
-                <h1 style="font-size: 80px;">
-                    {{ rating }}<span style="font-size: 14px;">/5</span>
-                </h1>
-            </div>
+            <NumericalRating v-if="rating > 0" :rating="rating" class="mt-4"/>
             <h3 v-else class="mt-4">No rating added yet.</h3>
         </div>
         <div class="mt-5 mx-0 row gap-3">
-            <div class="row gap-2">
                 <button class="btn col btn-danger text-white btn-lg" @click="closeRatingModal"
                     style="font-weight: 600;">Cancel</button>
                 <button class="btn col btn-primary text-white btn-lg" @click="submitRating"
                     style="font-weight: 600;">Submit</button>
-            </div>
         </div>
     </ModalContainer>
 
@@ -36,7 +28,7 @@ import type {
     UserReviewInfoInDb
 } from "./types";
 import ModalContainer from '@/common/components/modals/ModalContainer.vue';
-
+import NumericalRating from './components/NumericalRating.vue';
 
 export default defineComponent({
     data() {
@@ -61,7 +53,7 @@ export default defineComponent({
         }
     },
     components: {
-        StarRating, ModalContainer
+        StarRating, ModalContainer, NumericalRating
     },
     computed: {
         user() {

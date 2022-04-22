@@ -11,7 +11,7 @@ const layout = computed(
 
 <template>
   <component :is="layout">
-      <RouterView :key="$route.path" />
+    <RouterView :key="$route.path" />
   </component>
 </template>
 

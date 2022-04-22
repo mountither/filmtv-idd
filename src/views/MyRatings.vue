@@ -8,6 +8,7 @@
             v-for="(item) in ratingData" 
             :key="item.mediaId" 
             :poster-path="item.mediaPoster"
+            :title="item.mediaTitle"
                         :id="item.mediaId" :media-type="item.mediaType" :rating="item.rating"
                         :rated-at="item.ratedAt" />
         </section>

@@ -44,12 +44,14 @@
         <hr class="m-0" />
 
         <!-- Watch provider options -->
-        <AccordianItem id="watch_providers" title="Watch Providers" :isExpanded="watchProviderUrlQueried() ? true : initCollapsedAccordion">
+        <AccordianItem id="watch_providers" title="Watch Providers"
+            :isExpanded="watchProviderUrlQueried() ? true : initCollapsedAccordion">
             <div class="pt-3 px-1 d-flex gap-2 flex-row flex-wrap align-items-center justify-content-between">
                 <div :key="item.provider_id" v-for="(item) in filterOptions.watchProviders.data" class="cont-checkbox">
-                    <input type="checkbox" class="image-checkbox-input" :id="item.provider_id" :value="item.provider_id"
-                        v-model="filterState.watchProviders" autocomplete="off" @change="stateHandler">
-                    <label :for="item.provider_id" class="image-checkbox-label">
+                    <input type="checkbox" class="image-checkbox-input" :id="(item.provider_id as string)"
+                        :value="item.provider_id" v-model="filterState.watchProviders" autocomplete="off"
+                        @change="stateHandler">
+                    <label :for="(item.provider_id as string)" class="image-checkbox-label">
                         <span class="cover-checkbox">
                             <svg viewBox="0 0 12 10">
                                 <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
@@ -67,7 +69,7 @@
 <script lang="ts">
 import { defineComponent, type PropType } from "vue";
 
-import { fetchMediaGenres, fetchMediaLanguages, fetchWatchProviders, IMAGE_BASE_URL_500 } from "@/common/api/tmdb";
+import { fetchMediaGenres, fetchWatchProviders, IMAGE_BASE_URL_500 } from "@/common/api/tmdb";
 import type { Genres } from "@/modules/mediaFilters/filterData/genres";
 import { type Runtime, runtimeData } from "@/modules/mediaFilters/filterData/runtime";
 
@@ -100,7 +102,10 @@ export default defineComponent({
     props: {
         name: String,
         mediaType: String as PropType<MediaTypes>,
-        filterState: {} as PropType<{ genre: Array<number>, sortBy: String, runtime: Array<number>, watchProviders: Array<number> }>,
+        filterState: {
+            type: Object as PropType<{ genre: Array<number>, sortBy: String, runtime: Array<number>, watchProviders: Array<number> }>,
+            required: true
+        },
         stateHandler: Function as PropType<((payload: MouseEvent | Event) => void)>
     },
     async created() {

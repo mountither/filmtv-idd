@@ -5,8 +5,7 @@
         </h1>
         <section class="row mt-5 pb-5 pt-3 gap-2 d-flex justify-content-center">
             <MediaList :is-loading-media-data="isLoadingMediaData" :is-fetching-media-data="isFetchingMediaData"
-                :media="watchlistData" 
-                :show-media-type-on-card="mediaCardConfig.showMediaType" />
+                :media="watchlistData" :show-media-type-on-card="mediaCardConfig.showMediaType" />
         </section>
     </section>
 </template>
@@ -47,6 +46,8 @@ export default defineComponent({
                 if (!this.userWatchlistSorted) return;
 
                 const mediaPromises = Object.keys(this.userWatchlistSorted).map((media: any) => {
+                    if (!this.userWatchlistSorted) return;
+
                     const id = this.userWatchlistSorted[media].id;
                     const type = this.userWatchlistSorted[media].mediaType;
 
@@ -59,6 +60,8 @@ export default defineComponent({
                         resolve(data)
 
                     }).then((data: any) => {
+                        if (!this.userWatchlistSorted) return;
+
                         //* get date media added to watchlist from store.
                         if (!data) return;
                         const date_added_wl = this.userWatchlistSorted[media].date_added.seconds

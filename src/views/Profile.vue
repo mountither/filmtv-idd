@@ -1,7 +1,8 @@
 <template>
     <div class="my-5">
         <!-- Profile Header -->
-        <section class="d-flex flex-sm-row flex-column justify-content-between align-items-sm-end align-items-center gap-3">
+        <section
+            class="d-flex flex-sm-row flex-column justify-content-between align-items-sm-end align-items-center gap-3">
             <img v-if="user?.photoUrl" :src="user.photoUrl" style="height:70px;width:70px;object-fit:fill;"
                 class="rounded-circle mx-2 border" />
             <h1 v-if="user?.name" class="col m-0" style="font-weight: 500;"><span style="font-weight: 300;">Hello,
@@ -50,8 +51,9 @@
             <div class="d-flex align-items-center justify-content-between mb-2">
                 <h3 class="col text-left">My Ratings <span style="font-weight: 300;">({{ ratings.total }})</span>
                 </h3>
-                <button v-if="ratings.total > 5" type="button" class="btn btn-link text-tertiary p-0 shadow-none"
-                     @click="onViewAllPress('/myratings')"  style="font-weight: 600;">
+                <button v-if="ratings.total && ratings.total > 5" type="button"
+                    class="btn btn-link text-tertiary p-0 shadow-none" @click="onViewAllPress('/myratings')"
+                    style="font-weight: 600;">
                     view all
                 </button>
             </div>
@@ -63,8 +65,7 @@
                     style="overflow-x: auto; overflow-y: hidden;">
                     <!-- User Media Rating Card -->
                     <MediaRatingCard v-for="(item) in ratings.data" :key="item.mediaId" :poster-path="item.mediaPoster"
-                    :title="item.mediaTitle"
-                        :id="item.mediaId" :media-type="item.mediaType" :rating="item.rating"
+                        :title="item.mediaTitle" :id="item.mediaId" :media-type="item.mediaType" :rating="item.rating"
                         :rated-at="item.ratedAt" />
                 </div>
                 <div v-else class="col text-center">
@@ -84,8 +85,9 @@
             <div class="d-flex align-items-center justify-content-between mb-2">
                 <h3 class="col text-left">My Reviews <span style="font-weight: 300;">({{ reviews.total }})</span>
                 </h3>
-                <button v-if="reviews.total > 5" type="button" class="btn btn-link text-tertiary p-0 shadow-none"
-                    @click="onViewAllPress('/myreviews')" style="font-weight: 600;">
+                <button v-if="reviews.total && reviews.total > 5" type="button"
+                    class="btn btn-link text-tertiary p-0 shadow-none" @click="onViewAllPress('/myreviews')"
+                    style="font-weight: 600;">
                     view all
                 </button>
             </div>
@@ -96,7 +98,7 @@
                     class="container-full d-flex px-3 pb-2 px-xl-0 flex-row gap-2 py-3"
                     style="overflow-x: auto; overflow-y: hidden;">
                     <!-- review card -->
-                    <ReviewCard v-for="review in reviews.data" :key="review?.id" :agent-image="review.mediaPoster"
+                    <ReviewCard v-for="review in reviews.data" :key="review?.mediaId" :agent-image="review.mediaPoster"
                         :agent-name="review.mediaTitle" :rating="review?.rating" :title="review?.title"
                         :agent-is-media="reviewCardConfig.agentIsMedia" :has-spoilers="review.hasSpoilers"
                         :content="review.content" :is-local-review="reviewCardConfig.isLocalReview"
@@ -131,7 +133,7 @@ import { defineComponent } from "vue";
 import { formatDistance } from 'date-fns';
 import MediaRatingCard from '@/modules/ratingsAndReviews/components/MediaRatingCard.vue';
 import ReviewCard from "@/modules/ratingsAndReviews/components/ReviewCard.vue";
-import type {RatingData, ReviewData} from '@/modules/ratingsAndReviews/types'
+import type { RatingData, ReviewData } from '@/modules/ratingsAndReviews/types'
 
 const PREVIEW_ITEMS_MAX = 8;
 type MediaDataTypes = MovieTypes & TVTypes & { date_added_wl?: number, media_type: MediaTypes }

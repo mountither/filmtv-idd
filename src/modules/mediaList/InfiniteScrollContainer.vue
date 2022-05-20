@@ -1,6 +1,6 @@
 <template>
     <slot></slot>
-    <!-- Placeholder div for infinite api scroll -->
+    <!-- Placeholder div for infinite data scroll -->
     <div v-if="media?.data?.length" v-observe-visibility="visibilityChanged"></div>
 </template>
 <script lang="ts">

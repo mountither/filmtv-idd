@@ -41,7 +41,7 @@
                         v-for="review in allReviews" :key="review?.id"
                         :agent-image="review.author_details?.avatar_path"
                         :agent-name="review?.author_details?.name || review?.author"
-                        :rating="review?.rating || (review?.author_details?.rating/2)"
+                        :rating="review?.rating || (review?.author_details?.rating && (review.author_details.rating/2))"
                         :title="review?.title"
                         :has-spoilers="review.has_spoilers"
                         :content="review.content"

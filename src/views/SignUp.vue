@@ -88,10 +88,12 @@
 
 <script lang="ts">
 import { defineComponent, type PropType } from 'vue';
+//@ts-ignore
 import AuthContainer from '@/modules/auth/AuthContainer.vue';
 import { useVuelidate } from '@vuelidate/core';
 import { minLength, required, helpers, maxLength, email, sameAs } from '@vuelidate/validators'
 import { currentUser } from '../firebaseConfig';
+//@ts-ignore
 import { getAuthErrorString } from '@/modules/auth/utils/errorStrings'
 
 export default defineComponent({
@@ -107,7 +109,7 @@ export default defineComponent({
         }
     },
     components: { AuthContainer },
-    setup: () => ({ v$: useVuelidate() }),
+    setup: () => ({ v$: useVuelidate() as any}),
     validations() {
         return {
             form: {

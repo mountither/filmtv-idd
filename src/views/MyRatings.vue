@@ -15,17 +15,17 @@
     </section>
 </template>
 <script lang="ts">
-import { defineComponent } from "vue"
-import {
-    collection, doc, getDoc, getDocs, limit, orderBy, query,
-    where
-} from "@firebase/firestore";
-import { currentUser, firestore } from "@/firebaseConfig";
-import { getAuth } from "@firebase/auth";
 import { fetchMediaWithID } from "@/common/api/tmdb";
-import { formatDistance } from "date-fns";
-import type { RatingData, ReviewData } from '@/modules/ratingsAndReviews/types'
+import { currentUser, firestore } from "@/firebaseConfig";
 import MediaRatingCard from "@/modules/ratingsAndReviews/components/MediaRatingCard.vue";
+import type { RatingData } from '@/modules/ratingsAndReviews/types';
+import { getAuth } from "@firebase/auth";
+import {
+collection, getDocs, orderBy, query,
+where
+} from "@firebase/firestore";
+import { formatDistance } from "date-fns";
+import { defineComponent } from "vue";
 
 export default defineComponent({
     components: {
@@ -48,7 +48,7 @@ export default defineComponent({
     watch: {
         user: {
             immediate: true,
-            async handler(value) {
+            async handler() {
                 if (await currentUser()) {
                     await this.fetchRatings();
                 }

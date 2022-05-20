@@ -111,7 +111,7 @@
         </section>
 
         <!-- People (cast + crew) section -->
-        <section v-if="mediaData?.credits?.crew.length > 0 || mediaData?.credits?.cast.length > 0"
+        <section v-if="mediaData?.credits?.crew && (mediaData?.credits?.crew.length > 0 || mediaData?.credits?.cast.length > 0)"
             class="container mt-5">
             <People :credit-data="mediaData.credits" />
         </section>

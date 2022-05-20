@@ -44,13 +44,13 @@
 
 <script lang="ts">
 
-import { defineComponent, type PropType } from "vue"
-import ReadMoreContentModal from "../../../common/components/modals/ReadMoreContentModal.vue"
 import { IMAGE_BASE_URL_500 } from "@/common/api/tmdb";
-import { format, formatDistance } from 'date-fns';
-import StarRating from 'vue-star-rating'
 import type { MediaTypes } from "@/modules/media/types";
-import type { Timestamp } from "@firebase/firestore";
+import { formatDistance } from 'date-fns';
+import { defineComponent, type PropType } from "vue";
+//@ts-ignore
+import StarRating from 'vue-star-rating';
+import ReadMoreContentModal from "../../../common/components/modals/ReadMoreContentModal.vue";
 
 export default defineComponent({
     data() {
@@ -84,7 +84,7 @@ export default defineComponent({
         hasSpoilers: Boolean || undefined,
         content: String || undefined,
         isLocalReview: Boolean || undefined,
-        reviewedAt: {} as PropType<Timestamp> || String || undefined,
+        reviewedAt: {} as any,
     },
     components: { ReadMoreContentModal, StarRating },
     methods: {

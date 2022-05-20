@@ -24,6 +24,7 @@
 import { IMAGE_BASE_URL_500 } from "@/common/api/tmdb";
 import type { MediaTypes } from "@/modules/media/types";
 import { defineComponent, type PropType } from "vue";
+//@ts-ignore
 import StarRating from 'vue-star-rating'
 import NumericalRating from "./NumericalRating.vue";
 export default defineComponent({

@@ -45,7 +45,7 @@ export default defineComponent({
     watch: {
         user: {
             immediate: true,
-            async handler(value) {
+            async handler() {
                 if (await currentUser()) {
                     await this.fetchReviews();
                 }
@@ -112,7 +112,7 @@ export default defineComponent({
                 this.isLoadingReviews = false;
 
             } catch (error) {
-                console.log(error)
+                // console.log(error)
                 this.isLoadingReviews = false
 
             }

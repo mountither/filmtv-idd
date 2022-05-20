@@ -64,6 +64,7 @@
 </template>
 <script lang="ts">
 import { defineComponent, type PropType } from "vue";
+//@ts-ignore
 import StarRating from 'vue-star-rating'
 import { minLength, required, helpers, maxLength } from '@vuelidate/validators'
 import { useVuelidate } from '@vuelidate/core'
@@ -87,7 +88,7 @@ export default defineComponent({
             loading: false as Boolean
         }
     },
-    setup: () => ({ v$: useVuelidate() }),
+    setup: () => ({ v$: useVuelidate() as any}),
     components: { StarRating, ModalContainer, NumericalRating },
     props: {
         mediaId: Number,

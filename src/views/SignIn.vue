@@ -90,7 +90,7 @@ export default defineComponent({
             return this.$store.getters.loadingUser
         },
     },
-    setup: () => ({ v$: useVuelidate() }),
+    setup: () => ({ v$: useVuelidate() as any}),
     validations() {
         return {
             form: {

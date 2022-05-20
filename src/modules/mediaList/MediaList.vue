@@ -11,7 +11,7 @@
         <h5 style="font-weight: 600;">No results found</h5>
     </div>
     <TransitionGroup v-else name="fade">
-        <MediaCard class="col-auto" v-for="(item) in media.data" :key="item.id" :show-date="showMediaDate" :id="item.id"
+        <MediaCard class="col-auto" v-for="(item) in media?.data" :key="item.id" :show-date="showMediaDate" :id="item.id"
             :title="item.title || item.name || 'untitled'" :poster-path="item.poster_path"
             :release-date="item.release_date || item.first_air_date" :media-type="mediaType || item.media_type"
             :show-media-type="showMediaTypeOnCard" style="transition-delay: 300ms;" />

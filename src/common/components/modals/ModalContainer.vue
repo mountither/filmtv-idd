@@ -29,7 +29,7 @@ export default defineComponent({
             required: true
         },
         closeHandler: {
-            type: Function as PropType<((payload: MouseEvent) => void)>,
+            type: Function as PropType<(payload: MouseEvent) => void>,
             required: true,
         }
     }

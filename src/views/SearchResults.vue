@@ -5,7 +5,7 @@
             :next-page-handler="getNextPageData">
             <div class="position-relative">
                 <h5 style="font-weight: 400;">Search results for <span style="font-weight: 800;">{{
-                    searchInput
+                        searchInput
                 }}</span>
                 </h5>
                 <div class="position-absolute bottom-5 left-0 pb-4">
@@ -81,7 +81,7 @@ export default defineComponent({
         },
         async getNextPageData(): Promise<void> {
             try {
-
+                if (!this.searchInput) return;
                 this.isFetchingMediaData = true
 
                 const results = await fetchSearchMultiResults({ query: this.searchInput, page: this.page });

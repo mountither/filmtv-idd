@@ -2,13 +2,16 @@
   <!-- Header section -->
   <section class="container-full" style="position: relative;overflow: hidden">
     <div class="row d-flex" v-if="headerImages.length > 0">
+      <!-- Header bg -->
       <div v-for="(img, i) in headerImages" :key="i"
         :style="{ backgroundImage: 'linear-gradient(rgba(129, 178, 154,0.6),rgba(129, 178, 154,0.6)), url(' + IMAGE_BASE_URL_500 + img + ')' }"
         class="col-4 col-sm-4 bg-img p-0 overflow-hidden" />
+      <!-- Search container -->
       <div class="row search-container-full bg-primary p-4 py-5 rounded-3 shadow-lg">
         <h1 class="search-title p-0">Welcome</h1>
         <p class="search-subtitle p-0">explore all your favourite films and tv shows</p>
         <div class="input-group p-0" style="position: relative;" v-on-click-outside="closeSearchBox">
+          <!-- Search input box -->
           <input class="form-control form-control-lg" type="text" @keyup="getSearchResults"
             @keyup.enter.native="onSearchPress" @focus="searchInput !== '' ? isSearchBoxOpen = true : undefined"
             placeholder="Search Films and TV shows" v-model="searchInput" />
@@ -16,6 +19,7 @@
             <button @click="onSearchPress" class="btn btn-lg btn-tertiary text-white home-search-btn"
               type="button">Go</button>
           </div>
+          <!-- Search results - shown when input box is filled -->
           <Transition name="slide-fade" style="margin-top: 48px;">
             <div v-show="isSearchBoxOpen"
               style="position: absolute; top:48px, left:0; height:260px; width:100%;z-index: 10;"
@@ -40,6 +44,7 @@
         </div>
       </div>
     </div>
+    <!-- Bg placeholder on load -->
     <div v-else>
       <skeletor class="bg-img rounded-0" />
     </div>
@@ -112,7 +117,7 @@
         </div>
       </section>
     </div>
-
+    <!-- Twitter discussion -->
     <div class="col-xl mt-4 aside-container">
       <div class="d-flex flex-row">
         <h5>
@@ -141,13 +146,12 @@
 
 <script lang="ts">
 import { discoverMedia, fetchMoviesInTheatre, fetchTrendingMedia, fetchSearchMultiResults, IMAGE_BASE_URL_500, IMAGE_BASE_URL_92 } from '@/common/api/tmdb';
-import { defineComponent, ref } from 'vue';
+import { defineComponent } from 'vue';
 import Tweet from "vue-tweet";
 import MediaCard from '../modules/media/MediaCard.vue';
 import type { MovieTypes } from '@/common/api/tmdb/types/movie'
 import type { TVTypes } from '@/common/api/tmdb/types/tv'
 import type { SearchDataTypes } from '@/common/api/tmdb/types/searchResult'
-import { onClickOutside } from '@vueuse/core'
 import type { MediaTypes } from '@/modules/media/types';
 import { vOnClickOutside } from '@vueuse/components'
 
@@ -238,7 +242,6 @@ export default defineComponent({
     async processInTheatresData() {
       try {
         //*fetch movies in theatre (region - AU) 
-
         const data = await fetchMoviesInTheatre();
         this.inTheatreMediaPreview.data = data.results;
         this.inTheatreMediaPreview.isLoading = false;
@@ -250,6 +253,7 @@ export default defineComponent({
     },
     processHeaderImages() {
       if (!this.popularMediaPreview.data || this.popularMediaSelection === "tv") return;
+      // Get poster paths of popular media and choose 3 random imgs. 
       const posters = this.popularMediaPreview?.data?.map((media: any) => media.poster_path)
       this.headerImages = posters.sort(() => .5 - Math.random()).slice(0, 3);
     },

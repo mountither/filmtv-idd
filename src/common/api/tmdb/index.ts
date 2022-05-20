@@ -85,7 +85,7 @@ export const fetchSearchMultiResults = async ({
 };
 
 type FetchMediaWithIDProps = {
-  id: string;
+  id: string | number;
   type: MediaTypes;
   appendResponses: boolean;
 };
@@ -111,7 +111,7 @@ export const fetchMediaWithID = async ({
 };
 
 type FetchMediaReviewsProps = {
-  id: string;
+  id: string | number;
   type: MediaTypes;
 };
 
@@ -130,7 +130,7 @@ export const fetchMediaReviews = async ({
 };
 
 type fetchMediaWatchProvidersProps = {
-  id: number;
+  id: number | string;
   type: MediaTypes;
 };
 export const fetchMediaWatchProviders = async ({

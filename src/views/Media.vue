@@ -269,9 +269,7 @@ export default defineComponent({
     },
     watch: {
         //* checks:
-        //* 1. when user is not logged in - resolve to no watchlist/no wl loading
-        //* 2. user is logged in, but no watchlist document exists
-        //* 3. user is logged in and has a watchlist - check media in watchlist
+        //if watchlist exists (fetched at app init @ main.ts & stored in vuex), check if current media instance exists in array.
         userWatchlist: {
             immediate: true,
             handler(value) {
@@ -280,6 +278,7 @@ export default defineComponent({
                 }
             },
         },
+        // if watclist error arises (e.g no wl made), resolve processing wl to false.
         userWatchlistError: {
             immediate: true,
             handler(value) {
@@ -288,6 +287,7 @@ export default defineComponent({
                 }
             }
         },
+        // if user is not logged in, watchlist is noexistent, then resolve processing wl to false.
         loadingUser: {
             immediate: true,
             async handler(value) {

@@ -58,6 +58,7 @@
                             </svg>
                         </span>
                         <img :src="`${IMAGE_BASE_URL_500}${item.logo_path}`"
+                            :alt="`${item.provider_name}'s logo'`"
                             style="width: 50px;height: 50px;object-fit: cover; font-size: 12px;"
                             class="img-fluid rounded-3" v-tooltip="item.provider_name" />
                     </label>

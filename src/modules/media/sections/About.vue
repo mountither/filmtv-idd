@@ -7,7 +7,7 @@
 
             <div v-else-if="posterPath" v-viewer="posterViewerOpts"
                 class="d-flex align-self-center justify-content-center">
-                <img :src="`${IMAGE_BASE_URL_500}${posterPath}`" class="poster" />
+                <img :src="`${IMAGE_BASE_URL_500}${posterPath}`" class="poster" :alt="`Media Poster`"/>
             </div>
             <div v-else class="poster border">
             </div>

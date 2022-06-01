@@ -7,7 +7,7 @@
                 <span v-if="!agentImage"
                     :class="`${agentIsMedia ? 'media-image' : 'profile-image'} bg-tertiary rounded-circle p-0`" />
                 <img v-else @click="agentIsMedia ? navigateToMedia() : undefined" :src="getDisplayPhoto()"
-                    :class="`${agentIsMedia ? 'rounded-2 media-image' : 'rounded-circle profile-image border'} shadow-sm`" />
+                    :class="`${agentIsMedia ? 'rounded-2 media-image' : 'rounded-circle profile-image border'} shadow-sm`" :alt="`${agentName}'s Image'`" />
                 <div class="mt-1">
                     <p class="m-0 agent-name text-secondary">{{ agentName }}
                     </p>
@@ -31,7 +31,7 @@
         </div>
         <!-- bottom section - tmdb review ? and time ago published -->
         <img v-if="!isLocalReview" src="/images/tmdb-logo.svg" style="width: 40px; bottom:8px"
-            class="position-absolute" />
+            class="position-absolute" :alt="`TMDB logo`"/>
 
         <div v-show="reviewedAt" class="position-absolute" style="bottom: 8px; right: 8px;">
             <p class="m-0 text-black-50">{{ formatReviewDate(reviewedAt, isLocalReview) }}

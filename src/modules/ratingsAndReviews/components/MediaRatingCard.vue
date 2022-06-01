@@ -5,7 +5,7 @@
         </div>
 
         <router-link :to="`/media/${mediaType}/${id}`" class="text-decoration-none cursor-pointer">
-            <img v-if="posterPath" :src="IMAGE_BASE_URL_500 + posterPath" class="poster" />
+            <img v-if="posterPath" :src="IMAGE_BASE_URL_500 + posterPath" class="poster"  :alt="`${title}'s poster'`"/>
             <div v-else class="poster bg-black opacity-25"></div>
         </router-link>
         <div class="d-flex flex-column justify-content-center align-items-center px-1 bg-white overflow-hidden text-center py-2">

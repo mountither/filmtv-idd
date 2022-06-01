@@ -78,7 +78,7 @@
                         <p style="font-weight: 500;" class="p-0 m-0">Where to watch?</p>
 
                         <img :src="`${IMAGE_BASE_URL_OG}${getWatchProviderImagePreview}`"
-                            style="height: 40px; object-fit: cover;" class="mt-2" />
+                            style="height: 40px; object-fit: cover;" class="mt-2" alt="Featured Watch Provider"/>
 
                         <button type="button" class="btn btn-link text-tertiary mt-1" style="font-weight: 600;"
                             @click="onViewAllWatchProviders">

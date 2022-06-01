@@ -4,7 +4,7 @@
         <section
             class="d-flex flex-sm-row flex-column justify-content-between align-items-sm-end align-items-center gap-3">
             <img v-if="user?.photoUrl" :src="user.photoUrl" style="height:70px;width:70px;object-fit:fill;"
-                class="rounded-circle mx-2 border" />
+                class="rounded-circle mx-2 border" :alt="`${user?.name || 'user'}'s profile image'`" />
             <h1 v-if="user?.name" class="col m-0" style="font-weight: 500;"><span style="font-weight: 300;">Hello,
                 </span>{{ user.name }}</h1>
             <h1 v-else class="col m-0">My Profile</h1>

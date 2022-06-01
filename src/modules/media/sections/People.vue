@@ -3,48 +3,29 @@
         <div class="col-lg-5 align-self-center mt-3 mt-lg-0 w-100">
             <h4>People</h4>
             <hr class="my-2" />
-            <div class="my-3"  v-if="creditData?.cast && creditData.cast.length > 0">
+            <div class="my-3" v-if="creditData?.cast && creditData.cast.length > 0">
                 <h5>Cast</h5>
-                <div
-                    class="container-full px-3 px-xl-0 py-3 d-flex flex-row align-items-center gap-2 overflow-auto"
-                >
-                    <div
-                        v-for="person in creditData?.cast"
-                        :key="person?.id"
-                        class="rounded-3 shadow-sm overflow-hidden person-card bg-black position-relative"
-                    >
-                        <img
-                            v-if="person.profile_path"
-                            :src="`${IMAGE_BASE_URL_500}${person?.profile_path}`"
-                            class="person-img"
-                        />
+                <div class="container-full px-3 px-xl-0 py-3 d-flex flex-row align-items-center gap-2 overflow-auto">
+                    <div v-for="person in creditData?.cast" :key="person?.id"
+                        class="rounded-3 shadow-sm overflow-hidden person-card bg-black position-relative">
+                        <img v-if="person.profile_path" :src="`${IMAGE_BASE_URL_500}${person?.profile_path}`"
+                            class="person-img" :alt="`${person.name}'s' Profile Image`" />
                         <div v-else class="person-img bg-white bg-opacity-25"></div>
 
                         <div class="px-2 pt-1 d-flex flex-column">
                             <p class="text-white person-name">{{ person.name }}</p>
-                            <p
-                                v-if="person?.character"
-                                class="text-white person-role"
-                            >{{ person?.character }}</p>
+                            <p v-if="person?.character" class="text-white person-role">{{ person?.character }}</p>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="my-3" v-if="getDirectors && getDirectors.length > 0">
                 <h5>Director</h5>
-                <div
-                    class="container-full px-3 px-xl-0 py-3 d-flex flex-row align-items-center gap-2 overflow-auto"
-                >
-                    <div
-                        v-for="person in getDirectors"
-                        :key="person?.id"
-                        class="bg-light rounded-3 shadow-sm overflow-hidden person-card bg-black  bg-secondary position-relative"
-                    >
-                        <img
-                            v-if="person?.profile_path"
-                            :src="`${IMAGE_BASE_URL_500}${person?.profile_path}`"
-                            class="person-img"
-                        />
+                <div class="container-full px-3 px-xl-0 py-3 d-flex flex-row align-items-center gap-2 overflow-auto">
+                    <div v-for="person in getDirectors" :key="person?.id"
+                        class="bg-light rounded-3 shadow-sm overflow-hidden person-card bg-black  bg-secondary position-relative">
+                        <img v-if="person?.profile_path" :src="`${IMAGE_BASE_URL_500}${person?.profile_path}`"
+                            class="person-img" :alt="`${person.name}'s' Profile Image`" />
                         <div v-else class="person-img bg-white bg-opacity-25"></div>
 
                         <div class="px-2 pt-1 d-flex flex-column">
@@ -56,19 +37,11 @@
             </div>
             <div class="my-3" v-if="getCreators && getCreators.length > 0">
                 <h5>Creator</h5>
-                <div
-                    class="container-full px-3 px-xl-0 py-3 d-flex flex-row align-items-center gap-2 overflow-auto"
-                >
-                    <div
-                        v-for="person in getCreators"
-                        :key="person?.id"
-                        class="bg-light rounded-3 shadow-sm overflow-hidden person-card bg-black  bg-secondary position-relative"
-                    >
-                        <img
-                            v-if="person.profile_path"
-                            :src="`${IMAGE_BASE_URL_500}${person?.profile_path}`"
-                            class="person-img"
-                        />
+                <div class="container-full px-3 px-xl-0 py-3 d-flex flex-row align-items-center gap-2 overflow-auto">
+                    <div v-for="person in getCreators" :key="person?.id"
+                        class="bg-light rounded-3 shadow-sm overflow-hidden person-card bg-black  bg-secondary position-relative">
+                        <img v-if="person.profile_path" :src="`${IMAGE_BASE_URL_500}${person?.profile_path}`"
+                            class="person-img" :alt="`${person.name}'s' Profile Image`" />
                         <div v-else class="person-img bg-white bg-opacity-25"></div>
 
                         <div class="px-2 pt-1 d-flex flex-column">
@@ -126,10 +99,12 @@ p {
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
-    -webkit-line-clamp: 2; /* number of lines to show */
+    -webkit-line-clamp: 2;
+    /* number of lines to show */
     line-clamp: 2;
     -webkit-box-orient: vertical;
 }
+
 .person-name {
     font-weight: 500;
     font-size: 14px;
@@ -137,7 +112,8 @@ p {
 
 .person-role {
     font-size: 10px;
-    -webkit-line-clamp: 1; /* number of lines to show */
+    -webkit-line-clamp: 1;
+    /* number of lines to show */
     line-clamp: 1;
     position: absolute;
     margin: 0;
@@ -150,6 +126,7 @@ p {
     min-width: 140px;
     height: 200px;
 }
+
 .person-img {
     width: 100%;
     height: 60%;
@@ -162,9 +139,11 @@ p {
         min-width: 110px;
         height: 180px;
     }
+
     .person-name {
         font-size: 12px;
     }
+
     .person-role {
         font-size: 10px;
     }

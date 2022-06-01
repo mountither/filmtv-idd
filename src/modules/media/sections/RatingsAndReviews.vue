@@ -20,7 +20,7 @@
                         </div>
 
                         <div class="d-flex flex-row align-items-center">
-                            <img src="/images/tmdb-logo.svg" style="width: 40px;" />
+                            <img src="/images/tmdb-logo.svg" style="width: 40px;" :alt="`TMDB logo`" />
                             <p class="m-0 mx-2">
                                 <span style="font-weight:600">{{ tmdbVoteAverage }}</span>/10
                             </p>
@@ -37,17 +37,12 @@
                 <div class="container-full d-flex flex-row gap-3 py-2 px-3 px-xl-0"
                     style="overflow-x: auto; white-space:normal" v-if="allReviews && allReviews?.length > 0">
                     <!-- review card -->
-                    <ReviewCard
-                        v-for="review in allReviews" :key="review?.id"
+                    <ReviewCard v-for="review in allReviews" :key="review?.id"
                         :agent-image="review.author_details?.avatar_path"
                         :agent-name="review?.author_details?.name || review?.author"
-                        :rating="review?.rating || (review?.author_details?.rating && (review.author_details.rating/2))"
-                        :title="review?.title"
-                        :has-spoilers="review.has_spoilers"
-                        :content="review.content"
-                        :is-local-review="review.is_local"
-                        :reviewed-at="review.created_at"
-                    />
+                        :rating="review?.rating || (review?.author_details?.rating && (review.author_details.rating / 2))"
+                        :title="review?.title" :has-spoilers="review.has_spoilers" :content="review.content"
+                        :is-local-review="review.is_local" :reviewed-at="review.created_at" />
                 </div>
                 <div v-else>
                     <p class="mt-5">No Reviews added yet.</p>
@@ -147,7 +142,7 @@ export default defineComponent({
         this.getAllMediaReviews();
     },
     methods: {
-     
+
         onShowRatingModal() {
             if (!this.user) {
                 this.showNoAccessModal = true;

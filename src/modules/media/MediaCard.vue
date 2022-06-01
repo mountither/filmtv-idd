@@ -26,7 +26,7 @@
             </div>
 
             <router-link :to="`/media/${mediaType}/${id}`" class="text-decoration-none cursor-pointer">
-                <img v-if="posterPath" :src="IMAGE_BASE_URL_500 + posterPath" class="poster" />
+                <img v-if="posterPath" :src="IMAGE_BASE_URL_500 + posterPath" class="poster" :alt="`${title}'s' Poster`"/>
                 <div v-else class="poster bg-black opacity-25"></div>
             </router-link>
             <div class="p-2 overflow-hidden">

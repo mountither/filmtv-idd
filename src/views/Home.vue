@@ -7,14 +7,23 @@
         :style="{ backgroundImage: 'linear-gradient(rgba(129, 178, 154,0.6),rgba(129, 178, 154,0.6)), url(' + IMAGE_BASE_URL_500 + img + ')' }"
         class="col-4 col-sm-4 bg-img p-0 overflow-hidden" />
       <!-- Search container -->
-      <div class="row search-container-full bg-primary p-4 py-5 rounded-3 shadow-lg">
+      <div class="row search-container-full bg-primary p-4 py-5 rounded-3 shadow-lg" id="search-content">
         <h1 class="search-title p-0">Welcome</h1>
         <p class="search-subtitle p-0">explore all your favourite films and tv shows</p>
         <div class="input-group p-0" style="position: relative;" v-on-click-outside="closeSearchBox">
           <!-- Search input box -->
-          <input class="form-control form-control-lg" type="text" @keyup="getSearchResults"
-            @keyup.enter.native="onSearchPress" @focus="searchInput !== '' ? isSearchBoxOpen = true : undefined"
-            placeholder="Search Films and TV shows" v-model="searchInput" />
+          <label for="home-search" class="form-label" hidden>Search</label>
+          <input 
+            class="form-control form-control-lg" 
+            name="home-search" 
+            aria-labelledby="search-content"
+            id="home-search" type="text"         
+            @keyup="getSearchResults"
+            @keyup.enter.native="onSearchPress" 
+            @focus="searchInput !== '' ? isSearchBoxOpen = true : undefined"
+            placeholder="Search Films and TV shows" 
+            v-model="searchInput"
+            aria-label="Search Films and TV shows" />
           <div class="input-group-append">
             <button @click="onSearchPress" class="btn btn-lg btn-tertiary text-white home-search-btn"
               type="button">Go</button>
@@ -29,7 +38,8 @@
                   :to="`/media/${result.media_type}/${result.id}`"
                   class="d-flex flex-row align-items-center border-bottom p-2 search-result-card text-decoration-none text-black">
                   <img :src="IMAGE_BASE_URL_92 + result.poster_path"
-                    style="height: 70px; width: 45px; object-fit: cover;" class="rounded-2" />
+                    style="height: 70px; width: 45px; object-fit: cover;" class="rounded-2"
+                    :alt="`${result.title || result.name}'s Poster'`" />
                   <div>
                     <h6 class="mx-2">{{ result.title || result.name }}</h6>
                     <p class="mx-2">in {{ result.media_type }}</p>
@@ -82,7 +92,7 @@
       <section class="container-full dark-section mt-5 bg-black py-2 overflow-hidden">
         <div class="d-flex flex-row justify-content-between align-items-center px-3 position-relative">
           <h4 class="text-white" style="position: relative; z-index: 2;">Streaming on Netflix</h4>
-          <img src="/images/netflix-logo.png"
+          <img src="/images/netflix-logo.png" alt="Netflix Logo"
             style="position: absolute; top:10%; left:1%; width: 40px; z-index: 1;object-fit: contain;" />
           <div class=" mb-3">
             <select class="form-select form-control form-select-sm bg-white" aria-label="media selection"

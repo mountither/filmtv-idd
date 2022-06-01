@@ -42,6 +42,9 @@
         <Drawer :is-open="isDrawerOpen" :speed="300" @close="closeDrawer" title="Film filters">
             <MediaFilterSelections name="drawer-filter" :media-type="mediaType" :filter-state="filterState"
                 :state-handler="getFilteredMediaData" />
+            <button class="align-self-center mt-5 btn-primary btn w-100 btn-md text-white" style="font-weight: 800;"
+                @click="toggleDrawer">View Results</button>
+
         </Drawer>
 
     </InfiniteScrollContainer>

@@ -31,7 +31,12 @@
             </router-link>
             <div class="p-2 overflow-hidden">
                 <router-link :to="`/media/${mediaType}/${id}`" class="text-decoration-none">
-                    <p class="p-0 text-white title-link">{{ title }}</p>
+                    <p 
+                        class="p-0 text-white title-link" 
+                        data-toggle="tooltip" 
+                        data-placement="bottom"
+                        :title="title"
+                    >{{ title }}</p>
                 </router-link>
             </div>
 
@@ -39,7 +44,7 @@
             <div style="position: absolute; left: 7px; bottom: 0px;">
                 <!-- Date released -->
                 <p v-if="showDate && formattedDate" class="text-white text-white-50" style="font-size: 12px;">{{
-                    formattedDate
+                        formattedDate
                 }}</p>
             </div>
 
